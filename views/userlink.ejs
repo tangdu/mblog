@@ -17,7 +17,7 @@
             <div class="panel" style="height:250px;">
                 <div class="panel-body">
                     <img src="/static/img/tz.png">
-                    <a href="/artide/view/<%=userInfo.id_%>"><%=userInfo.username%></a>
+                    <%=userInfo.username%>
                     <div>积分:<%=userInfo.integral%></div>
                     <%if (locals.user && locals.user.id_!=userInfo.id_) {%>
                     <button class="btn btn-info" id="userattention" value="<%=userInfo.id_%>" >+关注</button>

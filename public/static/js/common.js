@@ -65,4 +65,17 @@ $(function(){
     $.showErr=function(msg){
       return showMsg(msg,"error");
     };
+
+
+    ipe.init=function(){
+        var colors=['#D9534F','#5CB85C','#B37333','#567E95','#00ABA9','#FF6600','#B433FF','#4A4A4A'];
+        ///颜色变换///
+        $(".ylabel a").each(function(i,r){
+            var _num=Math.floor(Math.random()*( colors.length + 1));
+            $(r).css({"background-color":colors[_num]});
+        });
+    }
+
+    ///////////////////init///////////////////////
+    ipe.init();
 });

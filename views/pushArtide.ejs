@@ -83,7 +83,7 @@
             //validate
             var content=$("textarea[name=content]").val();
             var title=$("input[name=title]").val();
-            var type=$("input[name=type]").val();
+            var type=$("select[name=type]").val();
             if(content==null || content==""){
                 $.showErr("文章内容不能为空!");
                 return;
@@ -94,6 +94,8 @@
                 $.showErr("文章类型不能为空!");
                 return;
             }
+
+           $("#artideForm").submit();
         });
     });
 </script>
