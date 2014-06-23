@@ -1,0 +1,109 @@
+body{
+    background: #E3E3E3 url("../img/bak.png");
+}
+body > .container {
+    padding: 70px 15px 0;
+}
+
+.mfooter{
+    position: relative;
+    border-top: 1px solid #aab2bd;
+    padding-top: 10px;
+    text-align: center;
+    bottom: 0;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    width: 100%;
+    background-color: #f5f5f5;
+}
+
+.custline{
+    height: 1.3px;
+    background-color:#000000;
+    position: fixed;
+    z-index: 1030;
+    top:50px;
+    right: 0;
+    left: 0;
+}
+
+#goTopBtn {
+    position: fixed;
+    line-height:36px;
+    width:60px;
+    height: 60px;
+    right:50px;
+    bottom:35px;
+    cursor:pointer;
+    display: none;
+    z-index: 99999;
+    -webkit-box-shadow:0 1px 3px rgba(34, 25, 25, 0.4);
+    -moz-box-shadow:0 1px 3px rgba(34, 25, 25, 0.4);
+    -ms-box-shadow:0 1px 3px rgba(34, 25, 25, 0.4);
+    -o-box-shadow:0 1px 3px rgba(34, 25, 25, 0.4);
+    box-shadow:0 1px 3px rgba(34, 25, 25, 0.4);
+    background: #eaeaea url(../img/top.gif) no-repeat -51px 0;
+}
+#goTopBtn:hover {
+    background: #eaeaea url(../img/top.gif) no-repeat -113px 0;
+}
+
+.viewrecord{
+    padding:5px;
+    border-bottom:solid 1px #F6F6F6;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    background-color: #fff;
+    border-left: solid 3px #fff;
+}
+.viewrecord:hover{
+    border-left-color: #CA4289;
+    background-color: #F5F5F5;
+}
+
+.viewrecord2{
+    border-bottom:solid 1px #F6F6F6;
+    padding: 5px;
+}
+.viewrecord2 a span{
+    -webkit-transition: -webkit-transform 0.4s ease-out;
+    -moz-transition: -moz-transform 0.4s ease-out;
+    transition: transform 0.4s ease-out;
+}
+.viewrecord2 a:hover span{
+    background-color: #F5F5F5;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+.to_right>button{
+    float: right;
+    margin: 4px;
+}
+
+.icon-start{
+    background: url(../img/star.png) no-repeat #2446AB;
+    height: 30;width: 30;
+}
+.sline{
+    border-bottom:2px solid #aab2bd;
+}
+.slintbtn{
+    margin-left: 2px;
+}
+#cusvoice{height:26px; overflow:hidden; z-index:20;}
+#cusvoice a{ color:#000000 !important;font-size:12px !important;}
+#cusvoice a:hover{ color:red !important;}
+#cusvoice li{height:26px;}
+
+.ylabel a{
+    opacity: 0.80;
+    filter: alpha(opacity=80);
+    font-size: 12px;
+    color: #fff;
+    background-color: #428BCA;
+    display: inline-block;
+    margin: 0 5px 5px 0;
+    padding: 0 6px;
+    line-height: 21px;
+}

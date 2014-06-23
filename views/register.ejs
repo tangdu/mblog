@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title>注册 | <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+</head>
+<body>
+<%- include topbar.ejs %>
+<div class="container">
+    <div class="col-md-8">
+        <span>
+            一切伟大的行动和思想，都有一个微不足道的开始
+        </span>
+    </div>
+    <div class="col-md-4">
+        <div class="panel">
+            <div class="panel-body">
+                <form class="from" role="form" action="/user/register" method="post">
+                    <div class="form-group">
+                        <legend>用户注册</legend>
+                    </div>
+                    <% if(message) { %>
+                    <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>提示:</strong><%= message %>
+                    </div>
+                    <% } %>
+                    <div class="form-group">
+                        <label>用户名:</label>
+                        <input name="username" class="form-control" required="true" autofocus="true">
+                    </div>
+                    <div class="form-group">
+                        <label>邮箱:</label>
+                        <input name="email" type="email" class="form-control" required="true">
+                    </div>
+                    <div class="form-group">
+                        <label>密码:</label>
+                        <input name="password" class="form-control" required="true" type="password">
+                    </div>
+                    <div class="form-group">
+                        <label>重复密码:</label>
+                        <input name="npassword" class="form-control" required="true" type="password">
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block">注册</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include footer.ejs %>
+<script>
+    $(function(){
+        $(".mfooter").css("position","fixed");
+    });
+</script>
+</body>
+</html>

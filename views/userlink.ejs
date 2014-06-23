@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title>首页 | <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+</head>
+<body>
+<%- include topbar.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel" style="height:250px;">
+                <div class="panel-body">
+                    <img src="/static/img/tz.png">
+                    <a href="/artide/view/<%=userInfo.id_%>"><%=userInfo.username%></a>
+                    <div>积分:<%=userInfo.integral%></div>
+                    <%if (locals.user && locals.user.id_!=userInfo.id_) {%>
+                    <button class="btn btn-info" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
+                    <%}%>
+                    <div><span class="bwz"><%=moment(userInfo.registertime).format('YYYY年MM月DD日 HH:SS')%></span> 注册</div>
+                    <div><span class="bwz"><%=moment(userInfo.lastlogintime).format('YYYY年MM月DD日 HH:SS')%></span> 最后登录</div>
+                    <div>用户简介:<%=userInfo.desc%></div>
+                </div>
+            </div>
+            <div class="list-group">
+                <a href="#" class="list-group-item"><%=userInfo.username%>的文章</a>
+                <a href="#" class="list-group-item"><%=userInfo.username%>的粉丝</a>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include footer.ejs %>
+<script type="text/javascript">
+    //关注用户
+    $("#userattention").bind("click",function(){
+        $.post('/attention/add_userattention',
+           {relid:$("#userattention").attr("value")},
+           function(data){
+                if(data.success){
+                    $("#userattention").text("-取消关注");
+                }
+            }
+        ,'json');
+    });
+</script>
+</body>
+</html>

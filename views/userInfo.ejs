@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title>首页 | <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+</head>
+<body>
+<%- include topbar.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel" style="height:250px;">
+                <div class="panel-body">
+                    <img src="/static/img/tz.png">
+                    <%if(userInfo.role==="1"){%>
+                    <span>管理员</span>
+                    <%}else{%>
+                    <span>会员</span>
+                    <%}%>
+
+                    <div>Email:<%=userInfo.email%></div>
+                    <div>积分:<%=userInfo.integral%></div>
+                    <div><%=moment(userInfo.registertime).format('YYYY年MM月DD日 HH:SS')%> 注册</div>
+                    <div><%=moment(userInfo.lastlogintime).format('YYYY年MM月DD日 HH:SS')%> 最后登录</div>
+                    <div>用户简介:<%=userInfo.desc%></div>
+                </div>
+            </div>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">我的主页</a>
+                <a href="#" class="list-group-item">我的关注</a>
+                <a href="#" class="list-group-item">我的收藏</a>
+                <a href="#" class="list-group-item">我的文章</a>
+                <a href="#" class="list-group-item">我的评论</a>
+                <a href="#" class="list-group-item">个人信息</a>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include footer.ejs %>
+</body>
+</html>

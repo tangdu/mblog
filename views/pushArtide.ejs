@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title>发表文章 | <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+</head>
+<body>
+<%- include topbar.ejs %>
+
+<div class="container">
+    <form class="form" id="artideForm" action="/artide/add_article"  method="post">
+        <div class="panel panel-success col-md-9">
+            <div class="panel-body">
+                <!--<div class="page-header">
+                    <h3>发布文章</h3>
+                </div>-->
+                <div class=" form-group">
+                    <label>标题:</label>
+                    <input class="form-control" name="title" type="email">
+                    <p class="help-block"></p>
+                </div>
+
+                <div class="form-group">
+                    <label>内容:</label>
+                    <textarea class="form-control" id="editor_blog" style="height:350px;" name="content" ></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <input type="checkbox"  checked>
+                        <label>允许评论</label>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <span class="btn btn-primary" id="preview">预览</span>
+                    <span id="submitForm" class="btn btn-info">马上发布</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group mywelll">
+                <label>发布至:</label>
+                <select class="form-control" name="type" >
+                    <% Sys.cont.artideType.forEach(function(item){%>
+                    <li>
+                        <option value="<%=item.value%>"><%=item.key%></option>
+                    </li>
+                    <%})%>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>关键字:</label>
+                <textarea class="form-control" style="height: 100px;max-height: 100px;" placeholder="添加关键字，并以逗号分开" name="keyword"></textarea>
+            </div>
+        </div>
+        <input class="hide" value="1" name="status">
+    </form>
+</div>
+
+
+<%- include footer.ejs %>
+<script src="/static/lib/kindeditor/kindeditor-all-min.js"></script>
+<script src="/static/lib/kindeditor/zh_CN.js"></script>
+<script type="text/javascript">
+    var k_edit;
+    KindEditor.ready(function (K) {
+        k_edit=K.create("#editor_blog",{
+            allowFileManager : false,
+            items:ipe.cont.kitems
+        });
+        $("#preview").click(function(){
+            k_edit.clickToolbar("preview");
+        });
+    });
+    $(function(){
+        $(".mfooter").css("position","fixed");
+
+        $("#submitForm").bind('click',function(){
+            if(!_islogin){
+                $.showMsg("您还没有登录");
+                return;
+            }
+            k_edit.sync();
+            //validate
+            var content=$("textarea[name=content]").val();
+            var title=$("input[name=title]").val();
+            var type=$("input[name=type]").val();
+            if(content==null || content==""){
+                $.showErr("文章内容不能为空!");
+                return;
+            }else if(title==null || title==""){
+                $.showErr("文章标题不能为空!");
+                return;
+            }else if(type==null || type==""){
+                $.showErr("文章类型不能为空!");
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>

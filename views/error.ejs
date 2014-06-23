@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title><%=error.status||500%></title>
+</head>
+<body>
+
+<% if(error.status=="404") { %>
+<div style="font:10em 'Microsoft YaHei' bold;text-align:center;padding-top:80px;"><%=error.status||500%></div>
+<div style="text-align:center;">
+    对不起，您访问页面不存在!
+    <a href="/">返回首页</a>
+</div>
+<%}else{%>
+<div style="font:10em 'Microsoft YaHei' bold;text-align:center;padding-top:80px;"><%=error.status||500%></div>
+<div>
+    对不起，您访问页面出现了问题。我们会尽快解决！
+    <br>
+    <%= message %>
+    <%= error.stack %>
+</div>
+<%}%>
+</body>
+</html>

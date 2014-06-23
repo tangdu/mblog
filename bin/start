@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+var debug = require('debug')('my-application');
+var app = require('../app');
+
+
+var server = app.listen(app.get('appport'), function() {
+    var date = new Date();
+    var log = '\n';
+    log += '------------------------------------------------------------\n';
+    log += '\tExpress server listening on port '+app.get("appport")+'\n';
+    log += '\tStart time：' + date + '\n';
+    log += '\tEnvironment：' + app.settings.env + '\n';
+    log += '\tDB Connetion port：' + app.get("port")+ '\n';
+    log += '\tLog Level：' + app.get("logger_level")+ '\n';
+    log += '------------------------------------------------------------\n';
+    console.log(log);
+});

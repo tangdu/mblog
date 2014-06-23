@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title>登录 | <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+    <style>
+        .form-signin {
+            width: 330px;
+            padding: 20px;
+            background-color: #ffffff;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form class="center-block form-signin" role="form" action="/user/login" method="post">
+        <% if(message) { %>
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>提示:</strong><%= message %>
+        </div>
+        <% } %>
+        <div class="form-group">
+            <label>用户名</label>
+            <input name="username" class="form-control" placeholder="用户名" value="admin" required="true">
+        </div>
+        <div class="form-group">
+            <label>密 码</label>
+            <input type="password" name="password" class="form-control" placeholder="密码" required="true">
+        </div>
+        <label>
+            <input type="checkbox"> 记住我
+        </label>
+        <div class="form-group">
+            <button type="submit" class="btn btn-lg btn-primary btn-block">登录</button>
+        </div>
+    </form>
+    <a href="/" class="center-block"
+       style="width:300px;margin-top:20px;overflow: hidden;">返回<%= Sys.cont.siteName %></a>
+</div>
+<script src="/static/js/jquery-1.10.1.min.js"></script>
+<script src="/static/js/site.min.js"></script>
+</body>
+</html>
