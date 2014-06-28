@@ -10,15 +10,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9">
-            <!--<div class="panel panel-default">
-                <div class="panel-body" style="padding:0px;">
-                    <div class="col-md-12" style="height: 50px;line-height:50px">
-                        <span class="btn btn-sm">全部：</span>
-                        <span class="btn btn-default btn-sm">最新</span>
-                        <span class="btn btn-default btn-sm">热门</span>
-                    </div>
-                </div>
-            </div>-->
             <div class="panel panel-default">
                 <div class="panel-heading">当前话题
                     <span class="pull-right"><i class="glyphicon glyphicon-th-large" id="viewstyle"></i></span>
@@ -42,11 +33,14 @@
                             <span>
                                <small><i class="glyphicon glyphicon-edit"></i> <a href="/user/view/<%= item.userid %>"> <%= item.username %></a></small>
                                <small><i class="glyphicon glyphicon-eye-open"></i> 围观<%= item.readcount %>次</small>
-                               <small><i class="glyphicon glyphicon-repeat"></i> 编辑日期：<%= moment(item.updated).format('MM-DD h:m') %></small>
+                               <small><i class="glyphicon glyphicon-repeat"></i> 编辑日期：<%= moment(item.updated).format('MM-DD HH:m') %></small>
+                               <% if (locals.user && (locals.user.id_===item.userid || locals.user.role==="1")) { %>
+                                <small><i class="glyphicon glyphicon-edit"></i> <a href="/edit_article/<%=item.id_%>">编辑</a></small>
+                               <%}%>
                             </span>
                         </div>
                         <div class="viewcontent hidden" style="height: 50px;padding-top:5px;">
-                            <%- item.content %>
+                            <%- item.digest %>
                         </div>
                     </div>
                     <% }) %>
@@ -54,11 +48,25 @@
                 </div>
             </div>
             <ul class="pagination">
-                <li class="disabled"><a href="#">«</a></li>
-                <% for(var i=1;i<=artidesLife.totalPage;i++){%>
-                    <li class="active"><a href="#"><%=i%><span class="sr-only">(current)</span></a></li>
+                <%if((parseInt(artidesLife.page)-1)<1){%>
+                    <li class="disabled"><a href="#">«</a></li>
+                <%}else{%>
+                    <li><a href="/index?ipage=1%>">«</a></li>
                 <%}%>
-                <li><a href="#">»</a></li>
+
+                <% for(var i=1;i<=artidesLife.totalPage;i++){%>
+                    <%if(artidesLife.page==i){%>
+                        <li class="active"><a href="/index?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
+                    <%}else{%>
+                        <li><a href="/index?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
+                    <%}%>
+                <%}%>
+
+                <%if( (parseInt(artidesLife.page)+1)>artidesLife.totalPage){%>
+                    <li class="disabled"><a href="#">»</a></li>
+                <%}else{%>
+                    <li><a href="/index?ipage=<%=(parseInt(artidesLife.page)+1)%>">»</a></li>
+                <%}%>
             </ul>
         </div>
 

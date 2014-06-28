@@ -13,7 +13,7 @@ global.moment = require('moment');//日期函数全局访问
 //系统DB全局变量
 global.DB=dbutil.Instance();
 DB.define({key:'User',name:'t_ef_user',fields:['id_','username','password','sex','status','role','email','integral','desc','lastlogintime','registertime']});
-DB.define({key:'Article',name:'t_ef_article',fields:['id_','title','type','created','updated','content','order','status','userid','username','commentsnum','allowcomment','readcount','keyword']});
+DB.define({key:'Article',name:'t_ef_article',fields:['id_','digest','title','type','created','updated','content','order','status','userid','username','commentsnum','allowcomment','readcount','keyword']});
 DB.define({key:'UserAttention',name:'t_ef_user_attention',fields:['id_','userid','relid','type','operationtime']});
 DB.define({key:'UserComment',name:'t_ef_user_comment',fields:['id_','userid','artideid','comment','commenttime','commendid']});
 DB.define({key:'UserReviews',name:'t_ef_user_reviews',fields:['id_','userid','relid','type','flag','operationtime']});
@@ -27,6 +27,7 @@ for(var prop in conf){
 }
 app.use(favicon());
 app.use(logger('dev'));
+app.use(bodyParser({ uploadDir: "./public/upload" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());

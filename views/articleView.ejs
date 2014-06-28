@@ -13,12 +13,12 @@
             <div class="panel-body">
                 <div class="col-md-12">
                     <div class="row">
-                        <div style="font-size: 20px;">•<a href="#"><%= item.title %></a></div>
+                        <div style="font-size: 20px;">•<a><%= item.title %></a></div>
                         <span style="float: left;">
                             <small><%= item.username %> By</small>
                             <small><i class="glyphicon glyphicon-time"></i> <%= moment(item.created).format('MM-DD HH:SS') %></small>
                             <small><i class="glyphicon glyphicon-eye-open"></i> 围观<%= item.readcount %>次</small>
-                            <small><i class="glyphicon glyphicon-refresh"></i> 编辑日期：<%= moment(item.updated).format('MM-DD h:m') %></small>
+                            <small><i class="glyphicon glyphicon-refresh"></i> 编辑日期：<%= moment(item.updated).format('MM-DD HH:m') %></small>
                             <% if (locals.user && (locals.user.id_===userInfo.id_ || locals.user.role==="1")) { %>
                                 <small><i class="glyphicon glyphicon-edit"></i> <a href="/edit_article/<%=item.id_%>">编辑</a></small>
                             <%}%>
@@ -28,8 +28,11 @@
                         <%- item.content %>
                     </div>
                     <div class="row" style="border-top:solid 1px #F6F6F6;">
-                        <div class="to_right" >
-                            <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-share-alt">发表评论</i></button>
+                        <div class="pull-left">
+                            <%=item.keyword%>
+                        </div>
+                        <div class="pull-right" >
+                            <!--<button type="button" class="btn btn-success"><i class="glyphicon glyphicon-share-alt">发表评论</i></button>-->
                             <button type="button" class="btn btn-primary" id="userdown" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-down"> <%=userdownCot%></i></button>
                             <button type="button" class="btn btn-primary" id="userbookmark" value="<%=item.id_%>"><i class="glyphicon glyphicon-bookmark"> <%=shouCot%></i></button>
                             <button type="button" class="btn btn-primary" id="userup" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-up"> <%=userupCot%></i></button>
@@ -48,11 +51,11 @@
                         <div class="col-md-9" >
                             <a style="color: #000000">
                                 <div style='float: left;background-image:url("/static/img/tzsm.png");width: 38px;height: 43px;'></div>
-                                <div style="font-size: 12px;margin-left: 50px;"><%=item.comment%></div>
+                                <span style="font-size: 12px;margin-left: 50px;"><%=item.comment%></span>
                             </a>
                         </div>
                         <div class="col-md-3 ">
-                            <small><%= item.username %></small> <a href="#"><%=(i+1)%>楼 <%= moment(item.commenttime).format('MM-DD h:m') %></a>
+                            <small><%= item.username %></small> <a><%=(i+1)%>楼 <%= moment(item.commenttime).format('MM-DD h:m') %></a>
                         </div>
                     </div>
                     <% })%>

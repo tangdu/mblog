@@ -95,7 +95,7 @@ router.get("/view/:id_", function (req, res,next) {
 router.post("/save_article", function (req, res) {
     var Article=DB.get("Article");
     var articleBean = req.body;
-    if(articleBean.id_!="" && articleBean.id_!=null){//修改
+    if(articleBean.flag=="edit"){//修改
         articleBean.updated = new Date();
         articleBean.userid=req.session.user.id_;
         articleBean.username=req.session.user.username;

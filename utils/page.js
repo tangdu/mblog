@@ -8,26 +8,27 @@ function Page(config) {
     if(!config){
         config={};
     }
-    if(typeof  config.start =='undefined' || config.start==null){
-        this.start = config.start | 0;
-    }
 
-    if(typeof  config.end =='undefined' || config.end==null){
-        this.end = 10;
+    this.page = config.page || 1;
+    this.pageSize = config.pageSize ||10;
+
+    if(this.page<=1){
+        this.start=0;
+    }else{
+        this.start=(this.page-1)*this.pageSize;
     }
-    if(typeof  config.page =='undefined' || config.page==null){
-        this.page = config.page | 1;
-    }
-    if(typeof  config.pageSize =='undefined' || config.pageSize==null){
-        this.pageSize = 10;
-    }
+    this.end = this.pageSize*this.page;
+
     if(!config.data){
         this.data=[];
     }
 
-    util._extend(this,config);
+    //util._extend(this,config);
     this.totalCount = 0;
-    this.totalPage = 0;
+    var totalPage = 0;
+    this.getTotalPage=function(){
+        return Math.ceil(this.totalPage/this.pageSize);
+    }
     return this;
 }
 module.exports = Page;

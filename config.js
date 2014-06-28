@@ -64,7 +64,7 @@ global.Sys = {
     },
     permissionUrls: [
         "/push_article", "/save_article",
-        "/add_userattention",
+        "/add_userattention","edit_article",
         "/add_artideattention","/add_comment",
         "/user_up_artide","/user/info"
     ],

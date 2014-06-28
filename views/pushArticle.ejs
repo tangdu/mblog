@@ -17,38 +17,43 @@
     </div>
     <div class="col-md-10">
         <form class="form" name="artideForm" action="/article/save_article" method="post">
-                <input class="hide" name="id_"  value="<%= article.id_ %>">
+                <input class="hide" name="id_" value="<%= (flag=='edit' ? article.id_ :'') %>">
                 <input class="hide" value="1" name="status">
+                <input class="hide" value="<%=flag%>" name="flag">
 
-                <label style="background:#428BD1;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客标题:</label>
                 <div class=" form-group">
-                    <div style="width: 20%;float: left" >
-                        <select  name="type" class="form-control">
-                            <% Sys.cont.artideType.forEach(function(item){ %>
-                            <li>
-                                <option value="<%= item.value %>"><%= item.key %></option>
-                            </li>
-                            <% }) %>
-                        </select>
-                    </div>
-                    <div style="width: 80%;float: left" >
-                        <input class="form-control" style="float: left;" name="title" value="<%= article.title %>">
+                    <label style="background:#428BD1;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客标题:</label>
+                    <div class="row">
+                        <div class="col-md-2" >
+                            <select  name="type" class="form-control">
+                                <% Sys.cont.artideType.forEach(function(item){ %>
+                                    <%if(flag=='edit' && article.type==item.value){%>
+                                        <option value="<%= item.value %>" selected="selected"><%= item.key %></option>
+                                    <%}else{%>
+                                        <option value="<%= item.value %>"><%= item.key %></option>
+                                    <%}%>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="col-md-10" >
+                            <input class="form-control" style="float: left;" name="title" value="<%= (flag=='edit' ? article.title :'') %>">
+                        </div>
                     </div>
                 </div>
 
-                <label style="background:#428BD1;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客摘要:</label>
                 <div class=" form-group">
-                    <textarea class="form-control" name="digest" value="<%= article.digest %>" style="height:70px;"></textarea>
+                    <label style="background:#d2322d;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客摘要:</label>
+                    <textarea class="form-control" name="digest" style="height:70px;"><%= (flag=='edit' ?article.digest:'') %></textarea>
                 </div>
 
-                <label style="background:#40aa53;width: 15px;height: 8px;margin-right: 5px;"></label><label>博客正文:</label>
                 <div class="form-group">
-                    <textarea class="form-control" id="editor" style="height:350px;" name="content" value="<%= article.content %>"></textarea>
+                    <label style="background:#40aa53;width: 15px;height: 8px;margin-right: 5px;"></label><label>博客正文:</label>
+                    <textarea class="form-control" id="editor" style="height:350px;" name="content"><%= (flag=='edit' ? article.content:'') %></textarea>
                 </div>
 
-                <label style="background:#40aa53;width: 15px;height: 8px;margin-right: 5px;"></label><label>关键字:</label>
                 <div class="form-group">
-                    <input class="form-control" placeholder="添加关键字，并以逗号分开"  name="keyword"></input>
+                    <label style="background:#40aa53;width: 15px;height: 8px;margin-right: 5px;"></label><label>关键字:</label>
+                    <input class="form-control" placeholder="添加关键字，并以逗号分开" value="<%= (flag=='edit' ? article.keyword:'') %>" name="keyword">
                 </div>
 
                 <div class="pull-left">
@@ -59,7 +64,11 @@
                 </div>
                 <div class="pull-right">
                     <span class="btn btn-primary" id="preview">预览</span>
-                    <span id="submitForm" class="btn btn-info">马上发布</span>
+                    <%if(flag=='edit'){%>
+                        <span id="submitForm" class="btn btn-info">保存博客</span>
+                    <%}else{%>
+                        <span id="submitForm" class="btn btn-info">马上发布</span>
+                    <%}%>
                 </div>
         </form>
     </div>
@@ -72,7 +81,9 @@
     var um = UM.getEditor('editor');
     $(function () {
         //$(".mfooter").css("position", "fixed");
-
+        $("#preview").click(function(){
+            um.execCommand('preview');
+        });
         $("#submitForm").bind('click', function () {
             if (!_islogin) {
                 $.showMsg("您还没有登录");

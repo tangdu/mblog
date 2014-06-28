@@ -64,27 +64,18 @@ body > .container {
     border-bottom:solid 1px #F6F6F6;
     padding: 5px;
 }
-.viewrecord2 a span{
+.viewrecord2 a div{
     -webkit-transition: -webkit-transform 0.4s ease-out;
     -moz-transition: -moz-transform 0.4s ease-out;
     transition: transform 0.4s ease-out;
 }
-.viewrecord2 a:hover span{
+.viewrecord2 a:hover div{
     background-color: #F5F5F5;
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
     transform: rotate(360deg);
 }
 
-.to_right>button{
-    float: right;
-    margin: 4px;
-}
-
-.icon-start{
-    background: url(../img/star.png) no-repeat #2446AB;
-    height: 30;width: 30;
-}
 .sline{
     border-bottom:2px solid #aab2bd;
 }

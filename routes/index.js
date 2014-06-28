@@ -5,16 +5,17 @@ var Page=require("../utils/page");
 var util=require("util");
 
 //首页
-router.get("/index",function(req,res){
-    res.redirect("/");
+router.get("/",function(req,res){
+    res.redirect("/index");
 });
-router.get("/",function(req,res,next){
+router.get("/index",function(req,res,next){
     var Article=DB.get("Article");
+    var ipage=req.query.ipage;
+    var page=new Page({page:ipage,pageSize:12});
     async.waterfall([
         function (cb){
             var data={};
             var params=['1'];
-            var page=new Page({end:12});
             var sql="SELECT\n" +
                 "	t1.*, (\n" +
                 "		SELECT\n" +
@@ -42,14 +43,14 @@ router.get("/",function(req,res,next){
             });
         },
         function(data,cb){
-            var page=new Page({end:10});
+            var page2=new Page({end:10});
             var sql="select * from t_ef_article t3 join (\n" +
                 "select count(1),t1.id_ as arid from t_ef_article t1 left join \n" +
                 "t_ef_user_comment t2 on t1.id_=t2.artideid\n" +
                 "and t2.commendid is null \n" +
                 "group by t1.id_ order by count(1) desc) t4 on t3.id_=t4.arid";
-            Article.queryPageBySql(sql,page,null,function(err,result){
-                data.topArtideList=page.data;
+            Article.queryPageBySql(sql,page2,null,function(err,result){
+                data.topArtideList=page2.data;
                 cb(err,data);
             });
         }
@@ -63,7 +64,7 @@ router.get("/",function(req,res,next){
 });
 //发表文章
 router.get("/push_article",function(req,res){
-    res.render('pushArticle',{article:{}});
+    res.render('pushArticle',{flag:'add'});
 });
 //编辑文章
 router.get("/edit_article/:articledID",function(req,res,next){
@@ -74,7 +75,7 @@ router.get("/edit_article/:articledID",function(req,res,next){
             if(err){
                 next(err);
             }else{
-                res.render('pushArticle',{article:result});
+                res.render('pushArticle',{article:result,flag:'edit'});
             }
         });
     }else{
