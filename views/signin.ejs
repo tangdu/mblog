@@ -22,7 +22,7 @@
 </head>
 <body>
 <div class="container">
-    <form class="center-block form-signin" role="form" action="/user/login" method="post">
+    <form class="center-block form-signin" role="form" action="/user/login" method="post" style="border-top: 2px solid #126d8d">
         <% if(message) { %>
         <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -45,7 +45,7 @@
         </div>
     </form>
     <a href="/" class="center-block"
-       style="width:300px;margin-top:20px;overflow: hidden;">返回<%= Sys.cont.siteName %></a>
+       style="width:300px;margin-top:20px;overflow: hidden;"><-返回<%= Sys.cont.siteName %></a>
 </div>
 <script src="/static/js/jquery-1.10.1.min.js"></script>
 <script src="/static/js/site.min.js"></script>

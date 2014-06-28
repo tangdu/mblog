@@ -37,20 +37,34 @@ var app = {
 global.Sys = {
     cont: {
         artideType: [
-            {key: '', value: '0', name: '首页'},
-            {key: 'Java', value: '1'},
-            {key: 'NodeJS', value: '2'},
-            {key: 'GoLang', value: '3'},
-            {key: 'Python', value: '4'},
-            {key: 'Oracle', value: '5'},
-            {key: 'MySQL', value: '6'},
-            {key: 'GanWu', value: '7',name:'感悟'}
+            {key: '首页', value: 'index'},
+            {key: '编辑语言',
+                child:[
+                    {key:'Java',value:'java'},{key:'Python',value:'phthon'},{key:'GoLang',value:'gplang'},
+                    {key:'NodeJS',value:'nodejs'}]
+            },
+            {key: 'Web前端',
+                child:[
+                    {key:'JavaScript',value:'javascript'},{key:'Html+Css',value:'html+css'},{key:'Jquery',value:'jquery'},
+                    {key:'ExtJS',value:'extjs'},{key:'SmartClient',value:'smartclient'}]
+            },
+            {key: '数据库',
+                child:[
+                    {key:'Oracle',value:'oracle'},{key:'MySQL',value:'mysql'},{key:'NoSQL',value:'nosql'}]
+            },
+            {key: '开发平台',
+                child:[
+                    {key:'Spring',value:'spring'},{key:'Hibernate',value:'hibernate'},{key:'MyBatis',value:'mybatis'},
+                    {key:'Servlet',value:'servlet'},{key:'WebService',value:'webservice'},{key:'Linux',value:'linux'},
+                    {key:'Weblogic',value:'weblogic'},{key:'Maven',value:'maven'},]
+            },
+            {key: '编程感慨', value: 'bcgw'}
         ],
         siteName: "IT人生"
     },
     permissionUrls: [
-        "/push_artide", "/add_article",
-        "/edit_article", "/add_userattention",
+        "/push_article", "/save_article",
+        "/add_userattention",
         "/add_artideattention","/add_comment",
         "/user_up_artide","/user/info"
     ],

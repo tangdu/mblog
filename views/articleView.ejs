@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title><%= title %>| <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+</head>
+<body>
+<%- include topbar.ejs %>
+
+<div class="container">
+    <div class="col-md-9">
+        <div class="panel panel-default" style="border-top: 2px solid #126d8d">
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div style="font-size: 20px;">•<a href="#"><%= item.title %></a></div>
+                        <span style="float: left;">
+                            <small><%= item.username %> By</small>
+                            <small><i class="glyphicon glyphicon-time"></i> <%= moment(item.created).format('MM-DD HH:SS') %></small>
+                            <small><i class="glyphicon glyphicon-eye-open"></i> 围观<%= item.readcount %>次</small>
+                            <small><i class="glyphicon glyphicon-refresh"></i> 编辑日期：<%= moment(item.updated).format('MM-DD h:m') %></small>
+                            <% if (locals.user && (locals.user.id_===userInfo.id_ || locals.user.role==="1")) { %>
+                                <small><i class="glyphicon glyphicon-edit"></i> <a href="/edit_article/<%=item.id_%>">编辑</a></small>
+                            <%}%>
+                        </span>
+                    </div>
+                    <div class="row" style="border-top:solid 1px #F6F6F6;padding-top: 20px;margin-top: 5px;">
+                        <%- item.content %>
+                    </div>
+                    <div class="row" style="border-top:solid 1px #F6F6F6;">
+                        <div class="to_right" >
+                            <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-share-alt">发表评论</i></button>
+                            <button type="button" class="btn btn-primary" id="userdown" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-down"> <%=userdownCot%></i></button>
+                            <button type="button" class="btn btn-primary" id="userbookmark" value="<%=item.id_%>"><i class="glyphicon glyphicon-bookmark"> <%=shouCot%></i></button>
+                            <button type="button" class="btn btn-primary" id="userup" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-up"> <%=userupCot%></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default" style="border-top: 2px solid #008800">
+            <div class="panel-heading">回复：</div>
+            <div class="panel-body" style="padding:0px;">
+                <%if(comments && comments.length>0) {%>
+                    <% comments.forEach(function(item,i){ %>
+                    <div class="col-md-12 viewrecord2" style="padding:0px;">
+                        <div class="col-md-9" >
+                            <a style="color: #000000">
+                                <div style='float: left;background-image:url("/static/img/tzsm.png");width: 38px;height: 43px;'></div>
+                                <div style="font-size: 12px;margin-left: 50px;"><%=item.comment%></div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 ">
+                            <small><%= item.username %></small> <a href="#"><%=(i+1)%>楼 <%= moment(item.commenttime).format('MM-DD h:m') %></a>
+                        </div>
+                    </div>
+                    <% })%>
+                <%} else {%>
+                   <div class="center-block" style="width: 300px;">还没有评论，沙发等你来抢,+_+</div>
+                <%}%>
+            </div>
+        </div>
+        <span class="btn btn-sm slintbtn">评论:<%= item.title %></span>
+        <div class="sline"></div>
+        <div class="panel">
+            <div class="panel-body">
+                <form class="form" action="/comment/add_comment" method="post">
+                    <div class="form-group">
+                        <textarea class="form-control" style="height:150px;max-height: 150px;" name="usercomment"></textarea>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" id="submitComment" value="<%=item.id_%>" class="btn btn-success" style="width:100px;">
+                            <i class="glyphicon glyphicon-share-alt"></i> 提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                作者信息
+            </div>
+            <div class="panel-body">
+                <%if (locals.user && locals.user.id_==userInfo.id_) {%>
+                    <a href="/user/view/<%=userInfo.id_%>"><%=userInfo.username%></a>
+                    <%if(userInfo.role==="1"){%>
+                    <span style="color: tomato;" class="bwz">管理员</span>
+                    <%}else{%>
+                    <span style="color: dodgerblue;" class="bwz">会员</span>
+                    <%}%>
+                    <%if (locals.user && locals.user.id_!=userInfo.id_) {%>
+                    <button class="btn btn-info" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
+                    <%}%>
+                    <img src="/static/img/tz.png">
+                    <div>积分:<%=userInfo.integral%></div>
+                    <div><span class="bwz"><%=moment(userInfo.registertime).format('YYYY年MM月DD日 HH:SS')%></span> 注册</div>
+                    <div><span class="bwz"><%=moment(userInfo.lastlogintime).format('YYYY年MM月DD日 HH:SS')%></span> 最后登录</div>
+                    <div>用户简介:<%=userInfo.desc%></div>
+                <%}else {%>
+                    <img src="/static/img/tz.png">
+                    <a href="/user/view/<%=userInfo.id_%>"><%=userInfo.username%></a>
+                    <button class="btn btn-info" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
+                    <div>积分:<%=userInfo.integral%></div>
+                    <div>粉丝:</div>
+                    <div>关注:</div>
+                    <div>文章/评论:</div>
+                <%}%>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                作者文章
+            </div>
+            <div class="panel-body" style="padding: 0px;">
+                <% userArtide.forEach(function(item){ %>
+                <div class="col-md-12 viewrecord">
+                    <a  href="/article/view/<%=item.id_%>"><%= item.title %></a>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                最新评论
+            </div>
+
+        </div>
+        <!--<div class="panel panel-default">
+            <div class="panel-heading">
+                热门文章
+            </div>
+            <div class="panel-body" style="padding: 0px;">
+                <% hotArtide.forEach(function(item){ %>
+                <div class="col-md-12 viewrecord">
+                   <a href="/article/view/<%=item.id_%>"><%= item.title %></a>
+                </div>
+                <% }) %>
+            </div>
+        </div>-->
+    </div>
+</div>
+<div id="goTopBtn"></div>
+<%- include footer.ejs %>
+<script type="text/javascript">
+
+    $(window).scroll(function(){
+        var sc=$(window).scrollTop();
+        if(sc>0){
+            $("#goTopBtn").css("display","block");
+        }else{
+            $("#goTopBtn").css("display","none");
+        }
+    })
+
+    $("#goTopBtn").click(function(){
+        var sc=$(window).scrollTop();
+        $('body,html').animate({scrollTop:0},500);
+    })
+    //关注用户
+    $("#userattention").bind("click",function(){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        $.post('/attention/add_userattention',
+        {relid:$("#userattention").attr("value")},
+        function(data){
+            if(data.success){
+                $("#userattention").text("-取消关注");
+            }
+        }
+        ,'json');
+    });
+    //收藏文章
+    $("#userbookmark").bind("click",function(){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        $.post('/attention/add_artideattention',
+        {relid:$("#userbookmark").attr("value")},
+        function(data){
+            if(data.success){
+                $("#userbookmark i").text(" "+data.count);
+            }
+        }
+        ,'json');
+    });
+    $("#userdown").bind("click",function(){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        $.post('/reviews/user_down_artide',
+        {relid:$("#userdown").attr("value")},
+        function(data){
+            if(data.success){
+                $("#userdown i").text(" "+data.count);
+            }
+        }
+        ,'json');
+    });
+    $("#userup").bind("click",function(){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        $.post('/reviews/user_up_artide',
+        {relid:$("#userup").attr("value")},
+        function(data){
+            if(data.success){
+                $("#userup i").text(" "+data.count);
+            }
+        }
+        ,'json');
+    });
+    //提交评论
+    $("#submitComment").bind('click',function(){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        //validate
+        var usercomment=$("textarea[name=usercomment]").val();
+        if(usercomment==null || usercomment==""){
+            $.showErr("回复内容不能为空!");
+            return;
+        }
+
+        $.post('/comment/add_comment',
+        {artideid:$("#submitComment").attr("value"),comment:usercomment},
+        function(data){
+            if(data.success){
+                /*var commments=data.comments;
+                var comments_id=$("#comments_id");
+                comments_id.empty();
+                for(var i=0;i<commments.length;i++){
+                    comments_id.append(commments[i].comment);
+                }*/
+                $("textarea[name=usercomment]").val("");
+            }
+        }
+        ,'json');
+    });
+</script>
+</body>
+</html>

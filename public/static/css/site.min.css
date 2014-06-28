@@ -16,7 +16,7 @@
  */
 
 html {
-    font-family: sans-serif;
+    font-family: "Microsoft YaHei","微软雅黑",Helvetica,Tahoma,Arial,STXihei,"华文细黑",SimSun,"宋体",Heiti,"黑体",sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%
 }
@@ -254,7 +254,7 @@ html {
 }
 
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Microsoft YaHei","微软雅黑",Helvetica,Tahoma,Arial,STXihei,"华文细黑",SimSun,"宋体",Heiti,"黑体",sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
@@ -3992,8 +3992,7 @@ select[multiple].input-group-sm > .form-control, select[multiple].input-group-sm
     float: left;
     padding: 15px;
     font-size: 18px;
-    line-height: 20px;
-    height: 50px
+    line-height: 10px;
 }
 
 .navbar-brand:focus, .navbar-brand:hover {
@@ -4045,9 +4044,9 @@ select[multiple].input-group-sm > .form-control, select[multiple].input-group-sm
 }
 
 .navbar-nav > li > a {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    line-height: 20px
+    padding-top: 2px;
+    padding-bottom: 2px;
+    line-height: 10px
 }
 
 @media (max-width: 767px) {
@@ -6185,7 +6184,7 @@ button.close {
 }
 
 body {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: "Microsoft YaHei","微软雅黑",Helvetica,Tahoma,Arial,STXihei,"华文细黑",SimSun,"宋体",Heiti,"黑体",sans-serif;
     color: #434a54;
     background-color: #fff
 }
@@ -7202,12 +7201,13 @@ blockquote {
 }
 
 .navbar-default {
-    background-color: #48cfad;
+    height: 43px;
+    background-color: #000000;
     border-color: #ffffff;
 }
 
 .navbar-default .btn-link, .navbar-default .navbar-brand, .navbar-default .navbar-link {
-    color: #26816a;
+    color: #ffffff;/*#26816a*/
 }
 
 .navbar-default .btn-link:focus, .navbar-default .btn-link:hover, .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-link:hover {
@@ -7216,7 +7216,7 @@ blockquote {
 }
 
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-text {
-    color: #26816a
+    color: #ffffff
 }
 
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
@@ -8051,7 +8051,7 @@ a.list-group-item-danger.active, a.list-group-item-danger:focus, a.list-group-it
 
 body {
     position: relative;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important
+    font-family: "Microsoft YaHei","微软雅黑",Helvetica,Tahoma,Arial,STXihei,"华文细黑",SimSun,"宋体",Heiti,"黑体",sans-serif;
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {

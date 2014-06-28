@@ -91,7 +91,7 @@ Table.prototype.insert = function(values, callback) {
     }
 };
 
-//get
+//get_返回空为错误
 Table.prototype.get = function(ID, callback) {
     if(!callback){
         callback=function(){};
@@ -100,10 +100,10 @@ Table.prototype.get = function(ID, callback) {
     if (ID != null && ID != "") {
         this.getConnection(function(connection) {
             var query = connection.query("select * from " + me.tablename + " where id_=?", ID, function(err, result) {
-                if (err) {
+                if (err || result.length<1) {
                     callback(err,result);
                 }else{
-                    callback(null,result);
+                    callback(null,result[0]);
                 }
                 connection.release(); //release
             });

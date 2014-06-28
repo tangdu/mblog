@@ -11,8 +11,12 @@ function Page(config) {
     if(typeof  config.start =='undefined' || config.start==null){
         this.start = config.start | 0;
     }
+
     if(typeof  config.end =='undefined' || config.end==null){
         this.end = 10;
+    }
+    if(typeof  config.page =='undefined' || config.page==null){
+        this.page = config.page | 1;
     }
     if(typeof  config.pageSize =='undefined' || config.pageSize==null){
         this.pageSize = 10;

@@ -20,23 +20,22 @@
                 </div>
             </div>-->
             <div class="panel panel-default">
-                <div class="panel-heading">当前话题<span class="pull-right">
-                        <ul id="cusvoice" style="padding: 0px;margin: 0px;font-size: 14px;">
-                            <li><i class="glyphicon glyphicon-bell"><a href="#"> 让优秀成为一种习惯</a></i></li>
-                            <li><i class="glyphicon glyphicon-bell"><a href="#"> 每天进步一点点</a></i></li>
-                        </ul>
-                </span></div>
+                <div class="panel-heading">当前话题
+                    <span class="pull-right"><i class="glyphicon glyphicon-th-large" id="viewstyle"></i></span>
+                    <ul id="cusvoice" style="padding: 0px;margin: 0px;font-size: 14px;margin-right: 20px;overflow: hidden" class="pull-right">
+                        <li><i class="glyphicon glyphicon-bell"><a href="#"> 让优秀成为一种习惯</a></i></li>
+                        <li><i class="glyphicon glyphicon-bell"><a href="#"> 每天进步一点点</a></i></li>
+                    </ul>
+                </div>
                 <div class="panel-body" style="padding:0px;">
-                    <% artidesLife.forEach(function(item){ %>
+                    <% artidesLife.data.forEach(function(item){ %>
                     <div class="viewrecord">
                         <div class="row">
-                            <div class="col-md-11" style="font-size: 17px;">
-                                <a href="/artide/view/<%= item.id_ %>" ><%= item.title %></a>
+                            <div class="col-md-11" style="font-size: 17px;padding-top: 5px;">
+                                <a href="/article/view/<%= item.id_ %>" ><%= item.title %></a>
                             </div>
                             <div class="col-md-1">
-                                <i class="glyphicon glyphicon-star-empty"
-                                   style="color: red;font-size:20px;margin-top: 20px;"></i>
-                                <span><%= item.shouCot %></span>
+
                             </div>
                         </div>
                         <div style="padding-left: 5px;">
@@ -46,7 +45,7 @@
                                <small><i class="glyphicon glyphicon-repeat"></i> 编辑日期：<%= moment(item.updated).format('MM-DD h:m') %></small>
                             </span>
                         </div>
-                        <div class="text_ellipsis hidden">
+                        <div class="viewcontent hidden" style="height: 50px;padding-top:5px;">
                             <%- item.content %>
                         </div>
                     </div>
@@ -56,10 +55,9 @@
             </div>
             <ul class="pagination">
                 <li class="disabled"><a href="#">«</a></li>
-                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                <li ><a href="#">2 <span class="sr-only">(current)</span></a></li>
-                <li ><a href="#">3 <span class="sr-only">(current)</span></a></li>
-                <li ><a href="#">4 <span class="sr-only">(current)</span></a></li>
+                <% for(var i=1;i<=artidesLife.totalPage;i++){%>
+                    <li class="active"><a href="#"><%=i%><span class="sr-only">(current)</span></a></li>
+                <%}%>
                 <li><a href="#">»</a></li>
             </ul>
         </div>
@@ -67,10 +65,10 @@
         <div class="col-md-3">
             <% if(locals.user != null){ %>
             <div class="panel">
-                <a href="/push_artide" class="btn btn-lg btn-primary btn-block">发表文章</a>
+                <a href="/push_article" class="btn btn-lg btn-primary btn-block">发表文章</a>
             </div>
             <% } %>
-            <div class="panel" style="height:150px;text-align: center;">
+            <div class="panel" style="height:150px;text-align: center;border-top: 2px indianred solid;">
                 <div class="panel-body">
                     <div style="text-align: center;font-weight: bold;font-size: 20px;">
                         <%= Sys.cont.siteName %>博客
@@ -85,7 +83,7 @@
                         Email:tangdu0228yes@163.com
                     </div>
                     <div>
-                        <a href="https://github.com/tangdu/mblog" target="_blank">GitHub</a>
+                        <a href="https://github.com/tangdu/mblog" target="_blank">访问GitHub</a>
                     </div>
                 </div>
             </div>
@@ -105,7 +103,7 @@
                 <div class="panel-body"  style="padding: 0px;">
                     <% topArtideList.forEach(function(item){ %>
                     <div class="col-md-12 viewrecord">
-                        <a href="/artide/view/<%= item.id_ %>"><%= item.title %></a>
+                        <a href="/article/view/<%= item.id_ %>"><%= item.title %></a>
                     </div>
                     <% }) %>
                 </div>
@@ -145,6 +143,19 @@
         }
         (F=_("if(#%26||!c)#++,#%=o.scrollHeight>>1;setTimeout(F,#%26?10:3000);".replace(/#/g,"o.scrollTop")))();
     };
+    $(function(){
+        $("#viewstyle").click(function(){
+            var _viewcontent=$(".viewcontent");
+
+            if(_viewcontent.hasClass("hidden")){
+                _viewcontent.removeClass("hidden");
+                _viewcontent.fadeIn("slow");
+            }else{
+                _viewcontent.addClass("hidden");
+                _viewcontent.fadeOut("slow");
+            }
+        });
+    });
 </script>
 </body>
 </html>

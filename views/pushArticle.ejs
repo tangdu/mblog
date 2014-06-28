@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title>编辑文章 | <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+    <link href="/static/lib/umeditor/themes/default/_css/umeditor.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<%- include topbar.ejs %>
+
+<div class="container">
+    <div class="col-md-2" >
+        <div style="height: 40px;width: 55px;background-color: #126d8d;text-align: center;">
+            <div style="color: #ffffff;font-weight: bold;font-size: 14px;"><%= moment().format('d') %></div>
+            <div style="color: #ffffff;font-size: 11px;"><%= moment().format('YYYY-MM') %></div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <form class="form" name="artideForm" action="/article/save_article" method="post">
+                <input class="hide" name="id_"  value="<%= article.id_ %>">
+                <input class="hide" value="1" name="status">
+
+                <label style="background:#428BD1;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客标题:</label>
+                <div class=" form-group">
+                    <div style="width: 20%;float: left" >
+                        <select  name="type" class="form-control">
+                            <% Sys.cont.artideType.forEach(function(item){ %>
+                            <li>
+                                <option value="<%= item.value %>"><%= item.key %></option>
+                            </li>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div style="width: 80%;float: left" >
+                        <input class="form-control" style="float: left;" name="title" value="<%= article.title %>">
+                    </div>
+                </div>
+
+                <label style="background:#428BD1;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客摘要:</label>
+                <div class=" form-group">
+                    <textarea class="form-control" name="digest" value="<%= article.digest %>" style="height:70px;"></textarea>
+                </div>
+
+                <label style="background:#40aa53;width: 15px;height: 8px;margin-right: 5px;"></label><label>博客正文:</label>
+                <div class="form-group">
+                    <textarea class="form-control" id="editor" style="height:350px;" name="content" value="<%= article.content %>"></textarea>
+                </div>
+
+                <label style="background:#40aa53;width: 15px;height: 8px;margin-right: 5px;"></label><label>关键字:</label>
+                <div class="form-group">
+                    <input class="form-control" placeholder="添加关键字，并以逗号分开"  name="keyword"></input>
+                </div>
+
+                <div class="pull-left">
+                    <div class="checkbox">
+                        <input type="checkbox" checked>
+                        <label>允许评论</label>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <span class="btn btn-primary" id="preview">预览</span>
+                    <span id="submitForm" class="btn btn-info">马上发布</span>
+                </div>
+        </form>
+    </div>
+</div>
+
+<%- include footer.ejs %>
+<script src="/static/lib/umeditor/umeditor.min.js"></script>
+<script src="/static/lib/umeditor/umeditor.config.js"></script>
+<script type="text/javascript">
+    var um = UM.getEditor('editor');
+    $(function () {
+        //$(".mfooter").css("position", "fixed");
+
+        $("#submitForm").bind('click', function () {
+            if (!_islogin) {
+                $.showMsg("您还没有登录");
+                return;
+            }
+            //validate
+            var content = um.getContent();
+            var title = $("input[name=title]").val();
+            var type = $("select[name=type]").val();
+            if (content == null || content == "") {
+                $.showErr("文章内容不能为空!");
+                return;
+            } else if (title == null || title == "") {
+                $.showErr("文章标题不能为空!");
+                return;
+            } else if (type == null || type == "") {
+                $.showErr("文章类型不能为空!");
+                return;
+            }
+            $("form[name=artideForm]").submit();
+        });
+    });
+</script>
+</body>
+</html>

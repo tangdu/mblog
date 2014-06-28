@@ -5,14 +5,16 @@ var Page=require("../utils/page");
 var util=require("util");
 
 //首页
-router.get("/",function(req,res){
-    var Artide=DB.get("Artide");
-
+router.get("/index",function(req,res){
+    res.redirect("/");
+});
+router.get("/",function(req,res,next){
+    var Article=DB.get("Article");
     async.waterfall([
         function (cb){
             var data={};
-            var params=['1','1'];
-            var page=new Page({end:10});
+            var params=['1'];
+            var page=new Page({end:12});
             var sql="SELECT\n" +
                 "	t1.*, (\n" +
                 "		SELECT\n" +
@@ -33,32 +35,51 @@ router.get("/",function(req,res){
                 "		AND t3.type = '1'\n" +
                 "	) shouCot\n" +
                 "FROM\n" +
-                "	t_ef_artide t1 where t1.type=? and t1.status=? ";
-            Artide.queryPageBySql(sql,page,params,function(){
-                data.artidesLife=page.data;
-                cb(null,data);
+                "	t_ef_article t1 where  t1.status=? order by created desc ";
+            Article.queryPageBySql(sql,page,params,function(err){
+                data.artidesLife=page;
+                cb(err,data);
             });
         },
         function(data,cb){
             var page=new Page({end:10});
-            var sql="select * from t_ef_artide t3 join (\n" +
-                "select count(1),t1.id_ as arid from t_ef_artide t1 left join \n" +
+            var sql="select * from t_ef_article t3 join (\n" +
+                "select count(1),t1.id_ as arid from t_ef_article t1 left join \n" +
                 "t_ef_user_comment t2 on t1.id_=t2.artideid\n" +
                 "and t2.commendid is null \n" +
                 "group by t1.id_ order by count(1) desc) t4 on t3.id_=t4.arid";
-            Artide.queryPageBySql(sql,page,null,function(err,result){
+            Article.queryPageBySql(sql,page,null,function(err,result){
                 data.topArtideList=page.data;
-                cb(null,data);
+                cb(err,data);
             });
         }
     ],function(err,results){
+        if(err){
+            next(err);
+        }
         results.activeTab="";
         res.render('index',results);
     });
 });
 //发表文章
-router.get("/push_artide",function(req,res){
-    res.render('pushArtide');
+router.get("/push_article",function(req,res){
+    res.render('pushArticle',{article:{}});
+});
+//编辑文章
+router.get("/edit_article/:articledID",function(req,res,next){
+    var Article=DB.get("Article");
+    var articledID=req.params.articledID;
+    if(articledID){
+        Article.get(articledID,function(err,result){
+            if(err){
+                next(err);
+            }else{
+                res.render('pushArticle',{article:result});
+            }
+        });
+    }else{
+        next(new Error("文章不存在"));
+    }
 });
 
 //登录

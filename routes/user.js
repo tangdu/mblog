@@ -19,7 +19,6 @@ router.post("/login",function(req,res){
         }else{
             if(result && result.length>0){
                 req.session.user=result[0];
-                console.log(result[0]);
                 res.send(req.session);
                 res.redirect("/");
                 var params={id_:result[0].id_,lastlogintime:new Date()};//更新登录时间

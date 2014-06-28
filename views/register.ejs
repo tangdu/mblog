@@ -8,16 +8,16 @@
 <%- include topbar.ejs %>
 <div class="container">
     <div class="col-md-8">
-        <span>
-            一切伟大的行动和思想，都有一个微不足道的开始
-        </span>
+        <h1>
+            一切伟大的行动和思想，都有一个微不足道的开始!
+        </h1>
     </div>
     <div class="col-md-4">
-        <div class="panel">
+        <div class="panel" style="border-top: 2px solid #126d8d">
             <div class="panel-body">
                 <form class="from" role="form" action="/user/register" method="post">
                     <div class="form-group">
-                        <legend>用户注册</legend>
+                        <legend>用户注册-<%= Sys.cont.siteName %></legend>
                     </div>
                     <% if(message) { %>
                     <div class="alert alert-warning">

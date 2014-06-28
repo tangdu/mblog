@@ -10,19 +10,30 @@
             <a href="/" class="navbar-brand"><%= Sys.cont.siteName %></a>
         </div>
 
-        <nav class="collapse navbar-collapse" role="navigation" >
+        <nav class="collapse navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
                 <% Sys.cont.artideType.forEach(function(item){ %>
-                    <% if(activeTab === item.key){ %>
-                        <li class="active">
-                            <a href="/<%= item.key %>"><%= (item.name ? item.name : item.key) %></a>
+                    <% if (item.child && item.child.length>0){%>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <%= item.key%><b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <% item.child.forEach(function(item2){ %>
+                                    <li><a href="/<%= item2.value %>"><%=item2.key%></a></li>
+                                <%})%>
+                            </ul>
                         </li>
-                    <% }else{ %>
-                        <li>
-                            <a href="/<%= item.key %>"><%= (item.name ? item.name : item.key) %></a>
+                    <%}else{%>
+                        <% if(activeTab === item.key){ %>
+                                <li class="active">
+                                    <a href="/<%= item.value %>"><%= item.key%></a>
+                                </li>
+                            <% }else{ %>
+                                <li>
+                                    <a href="/<%= item.value %>"><%= item.key %></a>
+                                </li>
+                            <% } %>
                         </li>
-                    <% } %>
-                    </li>
+                    <%}%>
                 <% }) %>
             </ul>
             <ul class="nav navbar-nav navbar-right">

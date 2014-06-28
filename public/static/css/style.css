@@ -18,11 +18,11 @@ body > .container {
 }
 
 .custline{
-    height: 1.3px;
-    background-color:#000000;
+    height: 1.4px;
+    background-color:#87c940;
     position: fixed;
     z-index: 1030;
-    top:50px;
+    top:43px;
     right: 0;
     left: 0;
 }
