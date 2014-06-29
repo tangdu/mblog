@@ -3,6 +3,7 @@
  * App 配置信息
  */
 var app = {
+    email:'tangdu0228yes@163.com',
     appport: 3000,
     host: '127.0.0.1',
     port: '3306',

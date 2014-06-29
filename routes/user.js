@@ -7,6 +7,13 @@ var router = express.Router();
 var crypto=require("crypto");
 var async=require("async");
 
+function getClientIp(req) {
+    return req.headers['x-forwarded-for'] || req.headers['x-real-ip']
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+};
+
 router.post("/login",function(req,res){
     var User=DB.get("User");
     var params=req.body;
@@ -19,7 +26,8 @@ router.post("/login",function(req,res){
         }else{
             if(result && result.length>0){
                 req.session.user=result[0];
-                var params={id_:result[0].id_,lastlogintime:new Date()};//更新登录时间
+                var ip_=getClientIp(req);
+                var params={id_:result[0].id_,lastlogintime:new Date(),lastloginip:ip_};//更新登录时间
                 User.update(params);
                 res.redirect("/");
             }else{
