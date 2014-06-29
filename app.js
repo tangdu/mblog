@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var fs=require("fs");
-var favicon = require('static-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -25,13 +25,12 @@ app.set('routes',__dirname + '/routes/');
 for(var prop in conf){
     app.set(prop,conf[prop]);
 }
-app.use(favicon());
+app.use(favicon(__dirname+'/public/static/img/favicon.ico'));
 app.use(logger('dev'));
-app.use(bodyParser({ uploadDir: "./public/upload" }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());//{ uploadDir: "./public/upload" }
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(session({ secret: 'tangdu', cookie: { maxAge: 60000*30 }}));
+app.use(session({ secret: 'tangdu', cookie: { maxAge: 60000*30 },saveUninitialized:true,resave:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Session拦截控制
