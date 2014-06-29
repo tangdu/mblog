@@ -19,10 +19,9 @@ router.post("/login",function(req,res){
         }else{
             if(result && result.length>0){
                 req.session.user=result[0];
-                res.send(req.session);
-                res.redirect("/");
                 var params={id_:result[0].id_,lastlogintime:new Date()};//更新登录时间
                 User.update(params);
+                res.redirect("/");
             }else{
                 res.render('signin',{message:'用户名或密码错误'});
             }
@@ -53,7 +52,7 @@ router.get("/info",function(req,res){
         if(err){
             next(err);
         }else{
-            res.render("userInfo",{userInfo:results[0]});
+            res.render("userInfo",{userInfo:results});
         }
     });
 });
@@ -63,7 +62,7 @@ router.get("/view/:id",function(req,res){
         if(err){
             next(err);
         }else{
-            res.render("userlink",{userInfo:results[0]});
+            res.render("userlink",{userInfo:results});
         }
     });
 });

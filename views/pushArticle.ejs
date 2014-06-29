@@ -31,7 +31,7 @@
                                         <option value="<%= item.value %>" selected="selected"><%= item.key %></option>
                                     <%}else{%>
                                         <option value="<%= item.value %>"><%= item.key %></option>
-                                    <%}%>
+                                    <%};%>
                                 <% }) %>
                             </select>
                         </div>
@@ -43,7 +43,7 @@
 
                 <div class=" form-group">
                     <label style="background:#d2322d;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客摘要:</label>
-                    <textarea class="form-control" name="digest" style="height:70px;"><%= (flag=='edit' ?article.digest:'') %></textarea>
+                    <textarea class="form-control" name="digest" style="height:100px;"><%= (flag=='edit' ?article.digest:'') %></textarea>
                 </div>
 
                 <div class="form-group">

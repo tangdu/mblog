@@ -8,64 +8,79 @@ var util=require("util");
 router.get("/",function(req,res){
     res.redirect("/index");
 });
-router.get("/index",function(req,res,next){
-    var Article=DB.get("Article");
-    var ipage=req.query.ipage;
-    var page=new Page({page:ipage,pageSize:12});
-    async.waterfall([
-        function (cb){
-            var data={};
-            var params=['1'];
-            var sql="SELECT\n" +
-                "	t1.*, (\n" +
-                "		SELECT\n" +
-                "			count(1)\n" +
-                "		FROM\n" +
-                "			t_ef_user_comment t2\n" +
-                "		WHERE\n" +
-                "			t2.artideid = t1.id_\n" +
-                "		AND t2.commendid IS NULL\n" +
-                "	) commentCot,\n" +
-                "	(\n" +
-                "		SELECT\n" +
-                "			count(1)\n" +
-                "		FROM\n" +
-                "			t_ef_user_attention t3\n" +
-                "		WHERE\n" +
-                "			t3.relid = t1.id_\n" +
-                "		AND t3.type = '1'\n" +
-                "	) shouCot\n" +
-                "FROM\n" +
-                "	t_ef_article t1 where  t1.status=? order by created desc ";
-            Article.queryPageBySql(sql,page,params,function(err){
-                data.artidesLife=page;
-                cb(err,data);
-            });
-        },
-        function(data,cb){
-            var page2=new Page({end:10});
-            var sql="select * from t_ef_article t3 join (\n" +
-                "select count(1),t1.id_ as arid from t_ef_article t1 left join \n" +
-                "t_ef_user_comment t2 on t1.id_=t2.artideid\n" +
-                "and t2.commendid is null \n" +
-                "group by t1.id_ order by count(1) desc) t4 on t3.id_=t4.arid";
-            Article.queryPageBySql(sql,page2,null,function(err,result){
-                data.topArtideList=page2.data;
-                cb(err,data);
-            });
-        }
-    ],function(err,results){
-        if(err){
-            next(err);
-        }
-        results.activeTab="";
-        res.render('index',results);
+//创建菜单相关的连接
+function createView(link){
+    if(!link && !link.value){
+        return;
+    }
+    router.get("/"+link.value,function(req,res,next){
+        var Article=DB.get("Article");
+        var ipage=req.query.ipage;
+
+        async.waterfall([
+            function (cb){
+                var data={};
+                var params=['1'];
+                var page=new Page({page:ipage,pageSize:12});
+                var sql="SELECT\n" +
+                    "	t1.*, (\n" +
+                    "		SELECT\n" +
+                    "			count(1)\n" +
+                    "		FROM\n" +
+                    "			t_ef_user_comment t2\n" +
+                    "		WHERE\n" +
+                    "			t2.artideid = t1.id_\n" +
+                    "		AND t2.commendid IS NULL\n" +
+                    "	) commentCot,\n" +
+                    "	(\n" +
+                    "		SELECT\n" +
+                    "			count(1)\n" +
+                    "		FROM\n" +
+                    "			t_ef_user_attention t3\n" +
+                    "		WHERE\n" +
+                    "			t3.relid = t1.id_\n" +
+                    "		AND t3.type = '1'\n" +
+                    "	) shouCot\n" +
+                    "FROM\n" +
+                    "	t_ef_article t1 where  t1.status=? order by created desc ";
+                Article.queryPageBySql(sql,page,params,function(err){
+                    data.artidesLife=page;
+                    cb(err,data);
+                });
+            },
+            function(data,cb){
+                var page2=new Page({end:10});
+                var sql="select * from t_ef_article t3 join (\n" +
+                    "select count(1),t1.id_ as arid from t_ef_article t1 left join \n" +
+                    "t_ef_user_comment t2 on t1.id_=t2.artideid\n" +
+                    "and t2.commendid is null \n" +
+                    "group by t1.id_ order by count(1) desc) t4 on t3.id_=t4.arid";
+                Article.queryPageBySql(sql,page2,null,function(err,result){
+                    data.topArtideList=page2.data;
+                    cb(err,data);
+                });
+            }
+        ],function(err,results){
+            if(err){
+                next(err);
+            }
+            results.activeTab="";
+            results.title=link.key;
+            if(link.value==="index"){
+                res.render('index',results);
+            }else{
+                res.render('view',results);
+            }
+        });
     });
-});
+}
+
+
 //发表文章
 router.get("/push_article",function(req,res){
     res.render('pushArticle',{flag:'add'});
 });
+
 //编辑文章
 router.get("/edit_article/:articledID",function(req,res,next){
     var Article=DB.get("Article");
@@ -96,19 +111,24 @@ router.get("/logout",function(req,res){
 router.get("/register",function(req,res){
     res.render('register', { message: false});
 });
-////////////////各子页面/////////////////
-Sys.cont.artideType.forEach(function(r){
-    if(r.key && r.key!=""){
-        router.get("/"+ r.key,function(req,res){
-            var type=req.path;
-            var activeTab=false;
-            if("/"+r.key===type){
-                activeTab= r.key;
-            }
-            res.render('section/'+ r.key+"View",{title: r.key,activeTab:activeTab,activeIndexTab:false});
-        });
-    }
-});
 
+//
+function initLinks(link){
+    if(util.isArray(link)){
+        link.forEach(function(r){
+            initLinks(r);
+        });
+    }else{
+        if(link.child){
+            link.child.forEach(function(r){
+                initLinks(r);
+            });
+        }else{
+            createView(link);
+        }
+    }
+}
+
+initLinks(Sys.cont.artideType);
 module.exports = router;
 

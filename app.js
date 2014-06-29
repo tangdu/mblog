@@ -5,26 +5,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var dbutil=require("./utils/dbutil.js");
-var conf=require("./config.js");
 var session=require("express-session");
 global.moment = require('moment');//日期函数全局访问
+global.DB=require("./utils/dbutil.js").Instance();
 
-//系统DB全局变量
-global.DB=dbutil.Instance();
+///定义实体
 DB.define({key:'User',name:'t_ef_user',fields:['id_','username','password','sex','status','role','email','integral','desc','lastlogintime','registertime']});
 DB.define({key:'Article',name:'t_ef_article',fields:['id_','digest','title','type','created','updated','content','order','status','userid','username','commentsnum','allowcomment','readcount','keyword']});
 DB.define({key:'UserAttention',name:'t_ef_user_attention',fields:['id_','userid','relid','type','operationtime']});
 DB.define({key:'UserComment',name:'t_ef_user_comment',fields:['id_','userid','artideid','comment','commenttime','commendid']});
 DB.define({key:'UserReviews',name:'t_ef_user_reviews',fields:['id_','userid','relid','type','flag','operationtime']});
 
+//Express配置
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('routes',__dirname + '/routes/');
-for(var prop in conf){
-    app.set(prop,conf[prop]);
-}
 app.use(favicon(__dirname+'/public/static/img/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());//{ uploadDir: "./public/upload" }
@@ -53,10 +49,9 @@ app.all("*",function(req,res,next){
     }
 });
 
-//构造控制器
+//控制层_根据routes文件名+方法_约定请求路径
 var routes=app.get("routes");
-var files = fs.readdirSync(routes);
-files.forEach(function(fileName, i) {
+fs.readdirSync(routes).forEach(function(fileName) {
     var filePath = routes + fileName;
     var rname=fileName.substr(0,fileName.lastIndexOf("."));
     if(!fs.lstatSync(filePath).isDirectory()) {
@@ -68,14 +63,14 @@ files.forEach(function(fileName, i) {
     }
 });
 
-/// catch 404 and forwarding to error handler
+///404
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-//
+///500
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         console.log(err);

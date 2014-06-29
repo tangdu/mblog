@@ -48,7 +48,7 @@ body > .container {
     background: #eaeaea url(../img/top.gif) no-repeat -113px 0;
 }
 
-.viewrecord{
+.viewrecord_hot,.viewrecord{
     padding:5px;
     border-bottom:solid 1px #F6F6F6;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
@@ -57,6 +57,10 @@ body > .container {
 }
 .viewrecord:hover{
     border-left-color: #CA4289;
+    background-color: #F5F5F5;
+}
+.viewrecord_hot:hover{
+    border-left-color: #87c940;
     background-color: #F5F5F5;
 }
 

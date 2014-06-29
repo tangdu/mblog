@@ -3,7 +3,6 @@
 **/
 var fs = require('fs');
 var conf=require("../config.js");
-
 var errorLogfile = fs.createWriteStream(conf.logger_path, {flags: 'a+',encoding:'utf8'});
 /*
 记录日志
