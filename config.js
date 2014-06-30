@@ -11,7 +11,7 @@ var app = {
     password: 'elife',
     database: 'elife',
     logger_path: "./bin/logs/error.log",
-    logger_level: 'debug' //debug | error
+    logger_level: 'error' //debug | error
 };
 
 global.Sys = {

@@ -15,12 +15,11 @@ function createView(link){
     }
     router.get("/"+link.value,function(req,res,next){
         var Article=DB.get("Article");
-        var ipage=req.query.ipage;
-
+        var ipage=req.query.ipage||1;
         async.waterfall([
             function (cb){
                 var data={};
-                var params=['1'];
+                var params=null;
                 var page=new Page({page:ipage,pageSize:12});
                 var sql="SELECT\n" +
                     "	t1.*, (\n" +
@@ -42,7 +41,13 @@ function createView(link){
                     "		AND t3.type = '1'\n" +
                     "	) shouCot\n" +
                     "FROM\n" +
-                    "	t_ef_article t1 where  t1.status=? order by created desc ";
+                    "	t_ef_article t1 where  t1.status='1' ";
+                if(link.value==="index"){
+                    sql+=" order by created desc";
+                }else{
+                    sql+=" and type=?";
+                    params=[req.url.substr(req.url.lastIndexOf("/")+1)];
+                }
                 Article.queryPageBySql(sql,page,params,function(err){
                     data.artidesLife=page;
                     cb(err,data);

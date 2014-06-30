@@ -24,7 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('routes',__dirname + '/routes/');
 app.use(favicon(__dirname+'/public/static/img/favicon.ico'));
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 app.use(bodyParser.json());//{ uploadDir: "./public/upload" }
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Session拦截控制
 app.all("*",function(req,res,next){
-    console.log(new Date()+"----------"+req.url+"------"+req.sessionID+"-----------"+req.ip);
+    //console.log(new Date()+"----------"+req.url+"------"+req.sessionID+"-----------"+req.ip);
     //对权限路径进行控制
     var _flag=false;
     Sys.permissionUrls.forEach(function(r){

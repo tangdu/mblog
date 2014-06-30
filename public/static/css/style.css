@@ -64,21 +64,6 @@ body > .container {
     background-color: #F5F5F5;
 }
 
-.viewrecord2{
-    border-bottom:solid 1px #F6F6F6;
-    padding: 5px;
-}
-.viewrecord2 a div{
-    -webkit-transition: -webkit-transform 0.4s ease-out;
-    -moz-transition: -moz-transform 0.4s ease-out;
-    transition: transform 0.4s ease-out;
-}
-.viewrecord2 a:hover div{
-    background-color: #F5F5F5;
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg);
-}
 
 .sline{
     border-bottom:2px solid #aab2bd;
@@ -101,4 +86,9 @@ body > .container {
     margin: 0 5px 5px 0;
     padding: 0 6px;
     line-height: 21px;
+}
+
+.ny small{
+    margin:10px 5px 0px 5px;
+    float: left;
 }
