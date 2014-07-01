@@ -93,14 +93,18 @@
             var content = um.getContent();
             var title = $("input[name=title]").val();
             var type = $("select[name=type]").val();
+            var digest = $("textarea[name=digest]").val();
             if (content == null || content == "") {
-                $.showErr("文章内容不能为空!");
+                $.showErr("博客内容不能为空!");
                 return;
             } else if (title == null || title == "") {
-                $.showErr("文章标题不能为空!");
+                $.showErr("博客标题不能为空!");
                 return;
             } else if (type == null || type == "") {
-                $.showErr("文章类型不能为空!");
+                $.showErr("博客类型不能为空!");
+                return;
+            } else if (digest == null || digest == "") {
+                $.showErr("博客摘要不能为空!");
                 return;
             }
             $("form[name=artideForm]").submit();
