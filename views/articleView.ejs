@@ -69,6 +69,9 @@
                     <div class="form-group">
                         <textarea class="form-control" style="height:150px;max-height: 150px;" name="usercomment"></textarea>
                     </div>
+                    <div class="pull-left">
+                    #请文明发言#
+                    </div>
                     <div class="pull-right">
                         <button type="button" id="submitComment" value="<%=item.id_%>" class="btn btn-success" style="width:100px;">
                             <i class="glyphicon glyphicon-share-alt"></i> 提交</button>
@@ -115,7 +118,7 @@
             <div class="panel-heading">
                 作者文章
             </div>
-            <div class="panel-body" style="padding: 0px;">
+            <div class="panel-body padding0" >
                 <% userArtide.forEach(function(item){ %>
                 <div class="col-md-12 viewrecord">
                     <a  href="/article/view/<%=item.id_%>"><%= item.title %></a>
@@ -133,7 +136,7 @@
             <div class="panel-heading">
                 热门文章
             </div>
-            <div class="panel-body" style="padding: 0px;">
+            <div class="panel-body padding0" >
                 <% hotArtide.forEach(function(item){ %>
                 <div class="col-md-12 viewrecord">
                    <a href="/article/view/<%=item.id_%>"><%= item.title %></a>

@@ -24,26 +24,26 @@
                 <div class=" form-group">
                     <label style="background:#428BD1;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客标题:</label>
                     <div class="row">
-                        <div class="col-md-2" >
+                        <div class="col-md-2"  >
                             <select  name="type" class="form-control">
-                                <% Sys.cont.artideType.forEach(function(item){ %>
+                                <% Sys.cont.getArticleType().forEach(function(item){ %>
                                     <%if(flag=='edit' && article.type==item.value){%>
                                         <option value="<%= item.value %>" selected="selected"><%= item.key %></option>
                                     <%}else{%>
                                         <option value="<%= item.value %>"><%= item.key %></option>
-                                    <%};%>
-                                <% }) %>
+                                    <%}%>
+                                <%})%>
                             </select>
                         </div>
                         <div class="col-md-10" >
-                            <input class="form-control" style="float: left;" name="title" value="<%= (flag=='edit' ? article.title :'') %>">
+                            <input class="form-control pull-left"  name="title" value="<%= (flag=='edit' ? article.title :'') %>">
                         </div>
                     </div>
                 </div>
 
                 <div class=" form-group">
                     <label style="background:#d2322d;width: 15px;height: 8px;margin-right: 5px;"> </label><label>博客摘要:</label>
-                    <textarea class="form-control" name="digest" style="height:100px;"><%= (flag=='edit' ?article.digest:'') %></textarea>
+                    <textarea class="form-control" name="digest" style="height:100px;"><%= (flag=='edit' ?(article.digest ? article.digest:''):'') %></textarea>
                 </div>
 
                 <div class="form-group">
@@ -94,10 +94,7 @@
             var title = $("input[name=title]").val();
             var type = $("select[name=type]").val();
             var digest = $("textarea[name=digest]").val();
-            if (content == null || content == "") {
-                $.showErr("博客内容不能为空!");
-                return;
-            } else if (title == null || title == "") {
+            if (title == null || title == "") {
                 $.showErr("博客标题不能为空!");
                 return;
             } else if (type == null || type == "") {
@@ -105,6 +102,9 @@
                 return;
             } else if (digest == null || digest == "") {
                 $.showErr("博客摘要不能为空!");
+                return;
+            } else if (content == null || content == "") {
+                $.showErr("博客内容不能为空!");
                 return;
             }
             $("form[name=artideForm]").submit();

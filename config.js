@@ -14,8 +14,9 @@ var app = {
     logger_level: 'error' //debug | error
 };
 
-global.Sys = {
-    cont: {
+global.Sys =new function(){
+    var me=this;
+    this.cont={
         //菜单常量
         artideType: [
             {key: '首页',value:'index'},
@@ -41,19 +42,29 @@ global.Sys = {
             },
             {key: '编程感慨', value: 'bcgw'}
         ],
+        getArticleType:function(){
+            var temp=[];
+            me.cont.artideType.forEach(function(item){
+                if(item.value && item.value!='index'){
+                    temp.push(item);
+                }
+                if(item.child && item.child.length>0){//支持2级。无迭代。
+                    item.child.forEach(function(item2){
+                        temp.push(item2);
+                    });
+                }
+            });
+            return temp;
+        },
         siteName: "IT人生"
     },
     //权限认证
-    permissionUrls: [
+    this.permissionUrls= [
         "/push_article", "/save_article",
         "/add_userattention","edit_article",
         "/add_artideattention","/add_comment",
         "/user_up_artide","/user/info"
-    ],
-    //系统库
-    lib: {
-
-    }
-}
+    ]
+};
 
 module.exports = app;

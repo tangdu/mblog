@@ -10,7 +10,6 @@ var logger=require("./utils/logger.js");
 global.moment = require('moment');//日期函数全局访问
 global.DB=require("./utils/dbutil.js").Instance();
 
-logger.error(" 我很生包...");
 ///定义实体
 DB.define({key:'User',name:'t_ef_user',fields:['id_','username','password','sex','status','role','email','integral','desc','lastlogintime','registertime','lastloginip']});
 DB.define({key:'Article',name:'t_ef_article',fields:['id_','digest','title','type','created','updated','content','order','status','userid','username','commentsnum','allowcomment','readcount','keyword']});
