@@ -8,7 +8,12 @@ var util=require("util");
 router.get("/",function(req,res){
     res.redirect("/index");
 });
+//首页
+createView({value:'index'});
 //创建菜单相关的连接
+Sys.cont.getArticleType().forEach(function(item){
+    createView(item);
+});
 function createView(link){
     if(!link && !link.value){
         return;
@@ -117,23 +122,9 @@ router.get("/register",function(req,res){
     res.render('register', { message: false});
 });
 
-//
-function initLinks(link){
-    if(util.isArray(link)){
-        link.forEach(function(r){
-            initLinks(r);
-        });
-    }else{
-        if(link.child){
-            link.child.forEach(function(r){
-                initLinks(r);
-            });
-        }else{
-            createView(link);
-        }
-    }
-}
 
-initLinks(Sys.cont.artideType);
+
+
+
 module.exports = router;
 

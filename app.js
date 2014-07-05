@@ -5,8 +5,9 @@ var favicon = require('serve-favicon');
 var morgan = require('morgan');//输出日志
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multiparty=require("connect-multiparty");
 var session=require("express-session");
-var logger=require("./utils/logger.js");
+global.logger=require("./utils/logger.js");
 global.moment = require('moment');//日期函数全局访问
 global.DB=require("./utils/dbutil.js").Instance();
 
@@ -24,7 +25,8 @@ app.set('view engine', 'ejs');
 app.set('routes',__dirname + '/routes/');
 app.use(favicon(__dirname+'/public/static/img/favicon.ico'));
 //app.use(morgan('dev'));
-app.use(bodyParser.json());//{ uploadDir: "./public/upload" }
+app.use(multiparty());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(session({ secret: 'tangdu', cookie: { maxAge: 60000*30 },saveUninitialized:true,resave:true}));
@@ -36,7 +38,7 @@ app.all("*",function(req,res,next){
     //对权限路径进行控制
     var _flag=false;
     Sys.permissionUrls.forEach(function(r){
-        if(req.session.user==null &&  r==req.url){
+        if(req.session.user==null && r==req.url){
             _flag=true;
             return;
         }
@@ -83,4 +85,6 @@ if (app.get('env') === 'development') {
     });
 }
 
+//临时文件存放地
+process.env.TMPDIR="F://";
 module.exports = app;

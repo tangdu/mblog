@@ -9,6 +9,8 @@ var uuid = require('node-uuid');
 var async=require("async");
 var Page=require("../utils/page");
 var BAG_REG = /background-color:#.*?;/g;
+var fs=require("fs");
+var gm=require("gm");
 
 
 router.get("/view/:id_", function (req, res,next) {
@@ -124,4 +126,32 @@ router.post("/save_article", function (req, res) {
     }
 });
 
+//文件上传
+router.post("/upload",function(req,res){
+    var tmp_path = req.files.upfile.path;
+    // 指定文件上传后的目录 - 示例为"images"目录。
+    var target_path = 'public/static/upload/' + req.files.upfile.name;
+    if(1*1024*1024<req.files.upfile.size){
+        res.json({'state':'FAILURE'});
+        return;
+    }
+    var file_name=req.files.upfile.name;
+    // 移动文件
+    fs.rename(tmp_path, target_path, function(err) {
+        if (err) {
+            logger.error(err);
+            res.json({'state':'FAILURE'});
+        }
+       var imageMagick=gm.subClass({ imageMagick : true });
+        imageMagick(target_path)
+           .resize(80,80).autoOrient().write(target_path,function(err){
+            if (err) {
+                logger.error(err);
+                res.json({'state':'FAILURE'});
+            }else{
+                res.json({'url':file_name,'title':file_name,'state':'SUCCESS'});
+            }
+        });//缩小80%
+    });
+});
 module.exports = router;
