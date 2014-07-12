@@ -15,16 +15,16 @@ exports.error=function(err){
         console.log(err);
         errorLogfile.open();
         if(err instanceof  Error){
-            var meta = '\n[' + moment(new Date()).format('YYYY-MM-DD HH:ss:mm') + '] [ERROR] ' +err.stack ;
+            var meta = '\n[' + moment(new Date()).format('YYYY-MM-DD HH:mm:ss') + '] [ERROR] ' +err.stack ;
             errorLogfile.write(meta);
         }else{
-            errorLogfile.write('\n[' + moment(new Date()).format('YYYY-MM-DD HH:ss:mm') + '] [ERROR] ' +err);
+            errorLogfile.write('\n[' + moment(new Date()).format('YYYY-MM-DD HH:mm:ss') + '] [ERROR] ' +err);
         }
         errorLogfile.close();
 	}
 }
 exports.debug=function(obj){
 	if(conf.logger_level==="debug" && obj!=null){
-		console.log("\n["+moment(new Date()).format('YYYY-MM-DD HH:ss:mm')+"][DEBUG] "+obj);
+		console.log("\n["+moment(new Date()).format('YYYY-MM-DD HH:mm:ss')+"][DEBUG] "+obj);
 	}
 }
