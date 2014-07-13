@@ -15,7 +15,7 @@
                     <div class="row">
                         <div style="font-size: 20px;">•<a><%= item.title %></a></div>
                         <span class="ny">
-                            <small><%= item.username %> By</small>
+                            <small><a href="/user/view/<%= item.userid %>/wdwz"> <%= item.username %></a> By</small>
                             <small><i class="glyphicon glyphicon-time"></i> <%= moment(item.created).format('MM-DD HH:SS') %></small>
                             <small><i class="glyphicon glyphicon-eye-open"></i> 围观<%= item.readcount %>次</small>
                             <small><i class="glyphicon glyphicon-refresh"></i> 编辑日期：<%= moment(item.updated).format('MM-DD HH:mm') %></small>

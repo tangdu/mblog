@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router();
 var crypto=require("crypto");
 var async=require("async");
+var Page=require("../utils/page");
 
 function getClientIp(req) {
     return req.headers['x-forwarded-for'] || req.headers['x-real-ip']
@@ -54,25 +55,100 @@ router.post("/register",function(req,res,next){
         }
     });
 });
-router.get("/info",function(req,res){
+/////////我的信息/////////
+router.get("/info/:linkType",function(req,res,next){
     var User=DB.get("User");
-    User.get(req.session.user.id_,function(err,results){
+    var userid=req.session.user.id_;
+    var linkType=req.params.linkType;
+    var Article=DB.get("Article");
+    var page=new Page({page:(req.query.ipage||1),pageSize:15});
+    var sql="";
+    var params=[];
+
+    if(linkType==="wdfs"){//我的粉丝
+        sql="select * from t_ef_article t1 where t1.id_ in (select relid from t_ef_user_attention where userid=? and type=?) ";
+        params=[userid,'1'];
+    }else if(linkType==="wdsc"){//我的收藏
+        sql="select * from t_ef_article t1 where t1.id_ in (select relid from t_ef_user_attention where userid=? and type=?) ";
+        params=[userid,'2'];
+    }else if(linkType==="wdwz"){//我的文章
+        sql="select * from t_ef_article t1 where t1.userid =? ";
+        params=[userid];
+    }else if(linkType==="wdpl"){//我的评论
+        sql="select * from t_ef_article t1 where t1.id_ in (select distinct artideid from t_ef_user_comment where userid=?) ";
+        params=[userid];
+    }else if(linkType==="grxx"){//个人信息
+        //TODO
+    }
+    async.waterfall([
+        function(cb){
+            Article.queryPageBySql(sql,page,params,function(err){
+                if(err){
+                    cb(err,null);
+                }else{
+                    cb(err,{rows:page,linkType:linkType});
+                }
+            });
+        },function(data,cb){
+            User.get(userid,function(err,results){
+                if(err){
+                    cb(err,null);
+                }else{
+                    data.userInfo=results;
+                    cb(err,data);
+                }
+            });
+        }
+    ],function(err,result){
         if(err){
             next(err);
-        }else{
-            res.render("userInfo",{userInfo:results});
         }
+        res.render("userInfo",result);
     });
 });
-router.get("/view/:id",function(req,res){
+///////查看用户////////////
+router.get("/view/:id/:linkType",function(req,res){
     var User=DB.get("User");
-    User.get(req.params.id,function(err,results){
+    var linkType=req.params.linkType;
+    var Article=DB.get("Article");
+    var page=new Page({page:(req.query.ipage||1),pageSize:15});
+    var userid=req.params.id;
+    var sql="";
+    var params=[];
+
+    if(linkType==="wdfs"){//我的粉丝
+        sql="select * from t_ef_article t1 where t1.id_ in (select relid from t_ef_user_attention where userid=? and type=?) ";
+        params=[userid,'1'];
+    }else if(linkType==="wdwz"){//我的文章
+        sql="select * from t_ef_article t1 where t1.userid =? ";
+        params=[userid];
+    }
+    async.waterfall([
+    function(cb){
+        Article.queryPageBySql(sql,page,params,function(err){
+            if(err){
+                cb(err,null);
+            }else{
+                cb(err,{rows:page,linkType:linkType});
+            }
+        });
+    },function(data,cb){
+        User.get(userid,function(err,results){
+            if(err){
+                cb(err,null);
+            }else{
+                data.userInfo=results;
+                cb(err,data);
+            }
+        });
+    }
+    ],function(err,result){
         if(err){
             next(err);
-        }else{
-            res.render("userlink",{userInfo:results});
         }
+        res.render("userlink",result);
     });
+
 });
 
 module.exports = router;

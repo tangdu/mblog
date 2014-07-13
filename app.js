@@ -38,7 +38,7 @@ app.all("*",function(req,res,next){
     //对权限路径进行控制
     var _flag=false;
     Sys.permissionUrls.forEach(function(r){
-        if(req.session.user==null && r==req.url){
+        if(req.session.user==null && req.url.indexOf(r)>-1){
             _flag=true;
             return;
         }
@@ -75,7 +75,7 @@ app.use(function(req, res, next) {
 
 ///500
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function(err, req, res) {
         logger.error(err);
         res.status(err.status || 500);
         res.render('error', {
@@ -86,7 +86,7 @@ if (app.get('env') === 'development') {
 }
 
 //应用终止退出
-process.on('exit',function(){
+/*process.on('exit',function(){
     console.log('Exit...........');
 });
 //应用未Catch异常
@@ -94,7 +94,7 @@ process.on('uncaughtException',function(err){
     if(err){
         console.log(err);
     }
-});
+});*/
 
 //临时文件存放地
 process.env.TMPDIR="F://";
