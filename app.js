@@ -70,7 +70,10 @@ fs.readdirSync(routes).forEach(function(fileName) {
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
-    next(err);
+    res.render('error', {
+        message: err.message,
+        error: err
+    });
 });
 
 ///500

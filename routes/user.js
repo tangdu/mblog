@@ -82,13 +82,17 @@ router.get("/info/:linkType",function(req,res,next){
     }
     async.waterfall([
         function(cb){
-            Article.queryPageBySql(sql,page,params,function(err){
-                if(err){
-                    cb(err,null);
-                }else{
-                    cb(err,{rows:page,linkType:linkType});
-                }
-            });
+            if(sql!=""){
+                Article.queryPageBySql(sql,page,params,function(err){
+                    if(err){
+                        cb(err,null);
+                    }else{
+                        cb(err,{rows:page,linkType:linkType});
+                    }
+                });
+            }else{
+                cb(null,{rows:null,linkType:linkType});
+            }
         },function(data,cb){
             User.get(userid,function(err,results){
                 if(err){
