@@ -48,13 +48,32 @@ body > .container {
     background: #eaeaea url(../img/top.gif) no-repeat -113px 0;
 }
 
-.viewrecord_hot,.viewrecord{
+.viewrecord{
     padding:5px;
     border-bottom:solid 1px #F6F6F6;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     background-color: #fff;
     border-left: solid 3px #fff;
 }
+.viewrecord_hot {
+    padding:3px 0 3px 5px !important;
+    border-bottom:solid 1px #F6F6F6;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    background-color: #fff;
+    border-left: solid 3px #fff;
+}
+.viewuserlink{
+    padding:5px;
+    border-bottom:solid 1px #F6F6F6;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    background-color: #fff;
+    border-left: solid 3px #fff;
+}
+.viewuserlink:hover{
+    border-left-color: #CA4289;
+    background-color: #F5F5F5;
+}
+
 .viewrecord:hover{
     border-left-color: #CA4289;
     background-color: #F5F5F5;

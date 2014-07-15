@@ -17,22 +17,18 @@
                 </div>
                 <div class="panel-body padding0">
                     <% rows.data.forEach(function(item){ %>
-                    <div class="viewrecord">
-                        <div class="col-md-11" style="font-size: 17px;padding-top: 5px;">
+                    <div class="viewuserlink">
+                        <div class="col-md-11 padding0" style="font-size: 16px;padding-top: 5px;">
                             <a href="/article/view/<%= item.id_ %>" ><%= item.title %></a>
+                        </div>
+                        <div>
+                            <small><i class="glyphicon glyphicon-edit"></i> <a href="/edit_article/<%=item.id_%>">编辑</a></small>
                         </div>
                     </div>
                     <%})%>
                 </div>
             </div>
-            <!--<ul class="nav nav-tabs nav-justified" role="tablist">
-                <li class="active"><a href="#tab1" data-toggle="tab">Profile</a></li>
-                <li><a href="#tab2" data-toggle="tab">Messages</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade active in" id="tab1">2</div>
-                <div class="tab-pane fade active in" id="tab2">22222222222222222</div>
-            </div>-->
+
             <ul class="pagination">
                 <%if((parseInt(rows.page)-1)<1){%>
                 <li class="disabled"><a href="#">«</a></li>

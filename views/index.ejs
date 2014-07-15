@@ -31,7 +31,7 @@
                         </div>
                         <div style="padding-left: 5px;" >
                             <span class="ny">
-                               <small><i class="glyphicon glyphicon-edit"></i> <a href="/user/view/<%= item.userid %>"> <%= item.username %>/wdwz</a></small>
+                               <small><i class="glyphicon glyphicon-edit"></i> <a href="/user/view/<%= item.userid %>/wdwz"> <%= item.username %></a></small>
                                <small><i class="glyphicon glyphicon-eye-open"></i> 围观<%= item.readcount %>次</small>
                                <small><i class="glyphicon glyphicon-repeat"></i> 编辑日期：<%= moment(item.updated).format('MM-DD HH:mm') %></small>
                                <% if (locals.user && (locals.user.id_===item.userid || locals.user.role==="1")) { %>
@@ -107,7 +107,7 @@
 
             <span class="btn btn-sm slintbtn">热门评论</span>
             <div class="sline"></div>
-            <div class="panel panel-default padding0">
+            <div class="panel panel-default">
                 <div class="panel-body padding0">
                     <% topArtideList.forEach(function(item){ %>
                     <div class="col-md-12 viewrecord_hot">
