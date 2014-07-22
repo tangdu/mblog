@@ -23,7 +23,7 @@ router.post("/add_comment",function(req,res,next){
     },function(data,cb){
         var params=[commentBean.artideid];
         var page=new Page({end:10});
-        UserComment.queryPageBySql("select * from t_ef_user_comment where commendid is null and artideid=? order by commenttime desc",page,params,function(err,result){
+        UserComment.queryPageBySql("select * from t_ef_user_comment where commendid is null and artideid=? order by commenttime asc",page,params,function(err,result){
             if (err) {
                 next(err);
             } else {
