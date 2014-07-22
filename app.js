@@ -91,13 +91,14 @@ if (app.get('env') === 'development') {
 //应用终止退出
 /*process.on('exit',function(){
     console.log('Exit...........');
-});
+});*/
 //应用未Catch异常
 process.on('uncaughtException',function(err){
     if(err){
-        console.log(err);
+        logger.error(err);
     }
-});*/
+});
+
 
 //临时文件存放地
 process.env.TMPDIR="F://";

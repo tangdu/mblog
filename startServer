@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+var child_process=require("child_process");
+
+/**
+ * 守护进程
+ */
+function spawn(){
+    var worker = child_process.spawn('node', ["bin/start"]);
+    worker.on('exit', function (code) {
+        if (code !== 0) {
+            spawn();
+        }
+    });
+    worker.stdout.on('data', function (data) {
+        console.log(data.toString("utf8"));
+    });
+    worker.stderr.on('data', function (data) {
+        console.log(data.toString("utf8"));
+    });
+}
+
+spawn();
