@@ -128,7 +128,11 @@ router.post("/save_article", function (req, res) {
 
 
 //文件上传
-router.post("/upload",function(req,res){
+router.get("/upload",function(req,res){
+    if(!req.files.upfile){
+        res.json({'state':'FAILURE'});
+        return;
+    }
     var tmp_path = req.files.upfile.path;
     // 指定文件上传后的目录 - 示例为"images"目录。
     var target_path = 'public/static/upload/' + req.files.upfile.name;

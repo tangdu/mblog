@@ -3,7 +3,6 @@
 <head>
     <title>编辑文章 | <%= Sys.cont.siteName %></title>
     <%- include header.ejs %>
-    <link href="/static/lib/umeditor/themes/default/_css/umeditor.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 <%- include topbar.ejs %>
@@ -48,7 +47,8 @@
 
                 <div class="form-group">
                     <label style="background:#40aa53;width: 15px;height: 8px;margin-right: 5px;"></label><label>博客正文:</label>
-                    <textarea class="form-control" id="editor" style="height:350px;" name="content"><%= (flag=='edit' ? article.content:'') %></textarea>
+                    <script id="editor" type="text/plain" style="height:380px;"><%- (flag=='edit' ? article.content:'') %></script>
+                    <!--<textarea class="form-control" id="editor" style="height:350px;" name="content"></textarea>-->
                 </div>
 
                 <div class="form-group">
@@ -75,10 +75,10 @@
 </div>
 
 <%- include footer.ejs %>
-<script src="/static/lib/umeditor/umeditor.min.js"></script>
-<script src="/static/lib/umeditor/umeditor.config.js"></script>
+<script src="/static/lib/ueditor/ueditor.config.js"></script>
+<script src="/static/lib/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
-    var um = UM.getEditor('editor');
+    var um = UE.getEditor('editor');
     $(function () {
         //$(".mfooter").css("position", "fixed");
         $("#preview").click(function(){
