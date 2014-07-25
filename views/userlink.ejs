@@ -33,7 +33,7 @@
                 <%if((parseInt(rows.page)-1)<1){%>
                 <li class="disabled"><a href="#">«</a></li>
                 <%}else{%>
-                <li><a href="/user/view/<%= userInfo.id_ %>/<%=linkType%>?ipage=1%>">«</a></li>
+                <li><a href="/user/view/<%= userInfo.id_ %>/<%=linkType%>?ipage=1">«</a></li>
                 <%}%>
 
                 <% for(var i=1;i<=rows.totalPage;i++){%>

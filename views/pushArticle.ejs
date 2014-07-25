@@ -78,7 +78,7 @@
 <script src="/static/lib/ueditor/ueditor.config.js"></script>
 <script src="/static/lib/ueditor/ueditor.all.min.js"></script>
 <script type="text/javascript">
-    var um = UE.getEditor('editor');
+    var um = UE.getEditor('editor',{textarea:'content'});
     $(function () {
         //$(".mfooter").css("position", "fixed");
         $("#preview").click(function(){
