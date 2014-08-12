@@ -37,18 +37,46 @@ app.all("*",function(req,res,next){
     //console.log(new Date()+"----------"+req.url+"------"+req.sessionID+"-----------"+req.ip);
     //对权限路径进行控制
     var _flag=false;
+    var _isadmin=false;
+    var _idadminurl=false;
     Sys.permissionUrls.forEach(function(r){
         if(req.session.user==null && req.url.indexOf(r)>-1){
             _flag=true;
             return;
         }
     });
+    //后台管理员权限过滤
+    if(!_flag){
+        Sys.adminUrls.forEach(function(r){
+            if(req.url.indexOf(r)>-1){
+                _idadminurl=true;
+                return;
+            }
+        });
+        if(_idadminurl){
+            if(req.session.user!=null && req.session.user.role=="1" ){
+                _isadmin=true;
+            }else{
+                _isadmin=false;
+            }
+        }
+    }
+
     res.locals.user=req.session.user;
     res.locals.activeTab="";
     if(_flag){
         res.redirect("/login");
     }else{
-        next();
+        if(!_isadmin && _idadminurl){
+            var err = new Error('没有权限');
+            err.status = 403;
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+        }else{
+            next();
+        }
     }
 });
 
@@ -61,6 +89,7 @@ fs.readdirSync(routes).forEach(function(fileName) {
        if(rname==="index"){
            app.use("/",require(filePath));
        }else{
+           console.log("/"+rname+"====="+filePath);
            app.use("/"+rname,require(filePath));
        }
     }

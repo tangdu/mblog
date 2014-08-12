@@ -10,7 +10,8 @@ router.get("/",function(req,res){
 });
 //首页
 createView({value:'index'});
-//创建菜单相关的连接
+
+//创建首页相关的连接
 Sys.cont.getArticleType().forEach(function(item){
     createView(item);
 });

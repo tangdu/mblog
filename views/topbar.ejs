@@ -12,7 +12,9 @@
 
         <nav class="collapse navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
-                <% Sys.cont.artideType.forEach(function(item){ %>
+                <% if (locals.user != null && locals.user.role=="1") { var tmpmenu=Sys.cont.artideType.concat(Sys.cont.adminUrls);}else{tmpmenu=Sys.cont.artideType}%>
+
+                <% tmpmenu.forEach(function(item){ %>
                     <% if (item.child && item.child.length>0){%>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <%= item.key%><b class="caret"></b></a>

@@ -42,6 +42,11 @@ global.Sys =new function(){
             },
             {key: '编程感慨', value: 'bcgw'}
         ],
+        adminUrls:[{key: '系统管理',
+            child:[
+                {key:'用户管理',value:'admin/usermanager'},
+                {key:'文章管理',value:'admin/articlemanager'}]
+        }],
         getArticleType:function(){
             var temp=[];
             me.cont.artideType.forEach(function(item){
@@ -63,7 +68,11 @@ global.Sys =new function(){
         "/push_article", "/save_article",
         "/add_userattention","edit_article",
         "/add_artideattention","/add_comment",
-        "/user_up_artide","/user/info"
+        "/user_up_artide","/user/info","/remove_article"
+    ]
+    //管理员权限
+    this.adminUrls=[
+        "/admin/usermanager","/admin/articlemanager"
     ]
 };
 
