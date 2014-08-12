@@ -132,7 +132,7 @@ router.get("/remove_article/:id_",function(req,res,next){
     if(id_!=null && id_!=""){
         Article.remove(id_,function(err){
             if(err){
-
+                next(err);
             }else{
                 res.redirect("/");
             }

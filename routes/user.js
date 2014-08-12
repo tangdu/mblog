@@ -155,4 +155,21 @@ router.get("/view/:id/:linkType",function(req,res){
 
 });
 
+
+router.get("/remove_user/:id_",function(req,res,next){
+    var User=DB.get("User");
+    var id_=req.params.id_;
+    if(id_!=null && id_!=""){
+        User.remove(id_,function(err){
+            if(err){
+                next(err);
+            }else{
+                res.redirect("/");
+            }
+        });
+    }else{
+        next(new Error("用户不存在"));
+    }
+});
+
 module.exports = router;

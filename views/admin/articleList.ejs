@@ -46,21 +46,21 @@
                 <%if((parseInt(articles.page)-1)<1){%>
                     <li class="disabled"><a href="#">«</a></li>
                 <%}else{%>
-                    <li><a href="/index?ipage=1">«</a></li>
+                    <li><a href="/admin/articlemanager?ipage=1">«</a></li>
                 <%}%>
 
                 <% for(var i=1;i<=articles.totalPage;i++){%>
                     <%if(articles.page==i){%>
-                        <li class="active"><a href="/index?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="/admin/articlemanager?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
                     <%}else{%>
-                        <li><a href="/index?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
+                        <li><a href="/admin/articlemanager?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
                     <%}%>
                 <%}%>
 
                 <%if( (parseInt(articles.page)+1)>articles.totalPage){%>
                     <li class="disabled"><a href="#">»</a></li>
                 <%}else{%>
-                    <li><a href="/index?ipage=<%=(parseInt(articles.page)+1)%>">»</a></li>
+                    <li><a href="/admin/articlemanager?ipage=<%=(parseInt(articles.page)+1)%>">»</a></li>
                 <%}%>
             </ul>
         </div>

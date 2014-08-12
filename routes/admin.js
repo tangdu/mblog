@@ -35,7 +35,7 @@ router.get("/usermanager",function(req,res,next){
         if(err){
             next(err);
         }
-        res.render('admin/articleList',{users:page});
+        res.render('admin/userList',{users:page});
     });
 });
 

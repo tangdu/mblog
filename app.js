@@ -89,7 +89,6 @@ fs.readdirSync(routes).forEach(function(fileName) {
        if(rname==="index"){
            app.use("/",require(filePath));
        }else{
-           console.log("/"+rname+"====="+filePath);
            app.use("/"+rname,require(filePath));
        }
     }
