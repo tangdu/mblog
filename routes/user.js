@@ -111,7 +111,7 @@ router.get("/info/:linkType",function(req,res,next){
     });
 });
 ///////查看用户////////////
-router.get("/view/:id/:linkType",function(req,res){
+router.get("/view/:id/:linkType",function(req,res,next){
     var User=DB.get("User");
     var linkType=req.params.linkType;
     var Article=DB.get("Article");
