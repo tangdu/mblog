@@ -18,21 +18,20 @@
                     <% articles.data.forEach(function(item){ %>
                     <div class="viewrecord">
                         <div class="row">
-                            <div class="col-md-11" style="font-size: 17px;padding-top: 5px;">
+                            <div class="col-md-10" style="font-size: 17px;padding-top: 5px;">
                                 <a href="/article/view/<%= item.id_ %>" ><%= item.title %></a>
                             </div>
-                            <div class="col-md-1">
-
+                            <div class="col-md-2" style="padding-top: 0px;">
+                                <% if (locals.user && locals.user.role==="1") { %>
+                                 <a  class="btn btn-sm btn-primary" href="/edit_article/<%=item.id_%>"><i class="glyphicon glyphicon-edit">编辑</i></a>
+                                 <a  class="btn btn-sm btn-danger" href="/admin/remove_article/<%=item.id_%>"><i class="glyphicon glyphicon-remove">删除</i></a>
+                                <%}%>
                             </div>
                         </div>
                         <div  class="row" style="padding-left: 20px;" >
                            <small><i class="glyphicon glyphicon-edit"></i> <a href="/user/view/<%= item.userid %>/wdwz"> <%= item.username %></a></small>
                            <small><i class="glyphicon glyphicon-eye-open"></i> 围观<%= item.readcount %>次</small>
                            <small><i class="glyphicon glyphicon-repeat"></i> 编辑日期：<%= moment(item.updated).format('MM-DD HH:mm') %></small>
-                           <% if (locals.user && (locals.user.id_===item.userid || locals.user.role==="2")) { %>
-                            <small><i class="glyphicon glyphicon-edit"></i> <a href="/edit_article/<%=item.id_%>">编辑</a></small>
-                            <small><i class="glyphicon glyphicon-remove"></i> <a href="/article/remove_article/<%=item.id_%>">删除</a></small>
-                           <%}%>
                         </div>
                         <div class="viewcontent hidden" style="height: 100px;padding-top:5px;white-space:normal;text-overflow:ellipsis;">
                             <%- item.digest %>
@@ -66,9 +65,19 @@
         </div>
     </div>
 </div>
+<div id="goTopBtn"></div>
 <%- include ../footer.ejs %>
 <script>
     $(function(){
+        $(window).scroll(function(){
+            var sc=$(window).scrollTop();
+            if(sc>0){
+                $("#goTopBtn").css("display","block");
+            }else{
+                $("#goTopBtn").css("display","none");
+            }
+        })
+
         $("#viewstyle").click(function(){
             var _viewcontent=$(".viewcontent");
 

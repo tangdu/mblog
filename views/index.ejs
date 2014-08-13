@@ -137,6 +137,7 @@
         </div>
     </div>
 </div>
+<div id="goTopBtn"></div>
 <%- include footer.ejs %>
 <script>
     var c,_=Function;
@@ -150,6 +151,15 @@
         (F=_("if(#%26||!c)#++,#%=o.scrollHeight>>1;setTimeout(F,#%26?10:3000);".replace(/#/g,"o.scrollTop")))();
     };
     $(function(){
+        $(window).scroll(function(){
+            var sc=$(window).scrollTop();
+            if(sc>0){
+                $("#goTopBtn").css("display","block");
+            }else{
+                $("#goTopBtn").css("display","none");
+            }
+        })
+
         $("#viewstyle").click(function(){
             var _viewcontent=$(".viewcontent");
 

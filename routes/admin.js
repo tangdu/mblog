@@ -24,6 +24,22 @@ router.get("/articlemanager",function(req,res,next){
 });
 
 
+router.get("/remove_article/:id_",function(req,res,next){
+    var Article=DB.get("Article");
+    var id_=req.params.id_;
+    if(id_!=null && id_!=""){
+        Article.remove(id_,function(err){
+            if(err){
+                next(err);
+            }else{
+                res.redirect("/admin/articlemanager");
+            }
+        });
+    }else{
+        next(new Error("文章不存在"));
+    }
+});
+
 /*******************用户管理列表*****************/
 
 router.get("/usermanager",function(req,res,next){
@@ -39,5 +55,20 @@ router.get("/usermanager",function(req,res,next){
     });
 });
 
+router.get("/remove_user/:id_",function(req,res,next){
+    var User=DB.get("User");
+    var id_=req.params.id_;
+    if(id_!=null && id_!=""){
+        User.remove(id_,function(err){
+            if(err){
+                next(err);
+            }else{
+                res.redirect("/admin/usermanager");
+            }
+        });
+    }else{
+        next(new Error("用户不存在"));
+    }
+});
 
 module.exports = router;

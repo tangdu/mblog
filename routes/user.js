@@ -9,8 +9,7 @@ var async=require("async");
 var Page=require("../utils/page");
 
 function getClientIp(req) {
-    return req.headers['x-forwarded-for'] || req.headers['x-real-ip']
-        req.connection.remoteAddress ||
+    return req.connection.remoteAddress ||req.headers['x-forwarded-for'] || req.headers['x-real-ip'] ||
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
 };
@@ -28,6 +27,7 @@ router.post("/login",function(req,res){
             if(result && result.length>0){
                 req.session.user=result[0];
                 var ip_=getClientIp(req);
+                console.log(ip_);
                 var params={id_:result[0].id_,lastlogintime:new Date(),lastloginip:ip_};//更新登录时间
                 User.update(params);
                 res.redirect("/");
@@ -43,15 +43,28 @@ router.post("/register",function(req,res,next){
     user.registertime = new Date();
     user.role="2";
     user.status="1";
+    if(!user.desc||user.desc==""){
+        user.desc="无说明，特优秀";
+    }
     //加密，密码不加密
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(user.password);
-    user.password=sha1.digest('hex');
-    User.insert(user,function(err,result){
+    User.where({username:user.username.trim()},function(err,result){
         if(err){
             next(err);
         }else{
-            res.redirect("/");
+            if(result && result.length>0){
+                res.render('register', { message: '帐号不能重复，请更换用户名'});
+            }else{
+                var sha1 = crypto.createHash('sha1');
+                sha1.update(user.password);
+                user.password=sha1.digest('hex');
+                User.insert(user,function(err,result){
+                    if(err){
+                        next(err);
+                    }else{
+                        res.redirect("/");
+                    }
+                });
+            }
         }
     });
 });
@@ -156,20 +169,5 @@ router.get("/view/:id/:linkType",function(req,res,next){
 });
 
 
-router.get("/remove_user/:id_",function(req,res,next){
-    var User=DB.get("User");
-    var id_=req.params.id_;
-    if(id_!=null && id_!=""){
-        User.remove(id_,function(err){
-            if(err){
-                next(err);
-            }else{
-                res.redirect("/");
-            }
-        });
-    }else{
-        next(new Error("用户不存在"));
-    }
-});
 
 module.exports = router;

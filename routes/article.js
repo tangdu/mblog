@@ -126,22 +126,6 @@ router.post("/save_article", function (req, res) {
     }
 });
 
-router.get("/remove_article/:id_",function(req,res,next){
-    var Article=DB.get("Article");
-    var id_=req.params.id_;
-    if(id_!=null && id_!=""){
-        Article.remove(id_,function(err){
-            if(err){
-                next(err);
-            }else{
-                res.redirect("/");
-            }
-        });
-    }else{
-        next(new Error("文章不存在"));
-    }
-});
-
 
 //文件上传
 router.get("/upload",function(req,res){

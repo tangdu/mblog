@@ -17,11 +17,16 @@
                 <div class="panel-body padding0">
                     <table class="table table-bordered">
                         <thead>
-                        <td>用户名称</td><td>性别</td><td>角色</td><td>注册时间</td><td>最后登录时间</td><td>最后登录IP</td>
+                        <th>用户名称</th><th>邮箱</th><th>角色</th><th>注册时间</th><th>最后登录时间</th><th>最后登录IP</th><th>操作</th>
                         </thead>
                         <tbody>
                         <% users.data.forEach(function(item){ %>
-                        <tr><td><%=item.username%></td><td><%=item.sex%></td><td><%=(item.role=="1" ? "管理员":"会员")%></td><td><%=moment(item.registertime).format('YYYY-MM-DD')%></td><td><%=moment(item.lastlogintime).format('YYYY-MM-DD HH:mm:ss')%></td><td><%=item.lastloginip%></td></tr>
+                        <tr><td><%=item.username%></td><td><%=item.email%></td><td><%=(item.role=="1" ? "管理员":"会员")%></td>
+                            <td><%=moment(item.registertime).format('YYYY-MM-DD')%></td>
+                            <td><%=moment(item.lastlogintime).format('YYYY-MM-DD HH:mm:ss')%></td>
+                            <td><%=item.lastloginip%></td>
+                            <td><a class="btn btn-sm btn-warning" href="/admin/remove_user/<%=item.id_%>">删除</a></td>
+                        </tr>
                         <%});%>
                         </tbody>
                     </table>
@@ -51,6 +56,19 @@
         </div>
     </div>
 </div>
+<div id="goTopBtn"></div>
 <%- include ../footer.ejs %>
+<script>
+    $(function(){
+        $(window).scroll(function(){
+            var sc=$(window).scrollTop();
+            if(sc>0){
+                $("#goTopBtn").css("display","block");
+            }else{
+                $("#goTopBtn").css("display","none");
+            }
+        });
+    });
+</script>
 </body>
 </html>
