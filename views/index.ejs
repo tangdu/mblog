@@ -74,22 +74,19 @@
                 <a href="/push_article" class="btn btn-lg btn-primary btn-block">发表文章</a>
             </div>
             <% } %>
-            <div class="panel" style="height:150px;text-align: center;border-top: 2px indianred solid;">
+            <div class="panel" style="height:130px;text-align: center;border-top: 2px indianred solid;">
                 <div class="panel-body">
                     <div style="text-align: center;font-weight: bold;font-size: 20px;">
-                        <%= Sys.cont.siteName %>博客
+                        <i class="glyphicon glyphicon-home"> </i><%= Sys.cont.siteName %>博客
                     </div>
                     <div>
-                        Express4+NodeJs+MySQL 打造博客网站系统
-                    </div>
-                    <div>
-                        QQ:1160755272
+                        Express4+NodeJs+MySQL 打造博客网站
                     </div>
                     <div>
                         Email:tangdu0228yes@163.com
                     </div>
                     <div>
-                        <a href="https://github.com/tangdu/mblog" target="_blank">访问GitHub</a>
+                        <a href="https://github.com/tangdu/mblog" class="label" target="_blank">访问GitHub</a>
                     </div>
                 </div>
             </div>
@@ -103,9 +100,10 @@
                 </div>
             </div>
 
-            <span class="btn btn-sm slintbtn">热门评论</span>
-            <div class="sline"></div>
+            <!--<span class="btn btn-sm slintbtn">热门评论</span>
+            <div class="sline"></div>-->
             <div class="panel panel-default">
+                <div class="panel-heading">>>热门评论</div>
                 <div class="panel-body padding0">
                     <% topArtideList.forEach(function(item){ %>
                     <div class="col-md-12 viewrecord_hot">
@@ -115,19 +113,20 @@
                 </div>
             </div>
 
-            <span class="btn btn-sm slintbtn">站长统计</span>
-            <div class="sline"></div>
-            <div class="panel panel-info" style="height:90px;">
-                <div class="panel-body">
+            <!--<span class="btn btn-sm slintbtn">站长统计</span>
+            <div class="sline"></div>-->
+            <div class="panel panel-default" style="height:100px;">
+                <div class="panel-heading">>>站长统计</div>
+                <div class="panel-body padding0">
                     <div class="col-md-6" >
-                        <ul style="margin: 0px;" class="padding0">
+                        <ul style="margin: 0px;list-style: none;" class="padding0">
                             <li>访问总数：</li>
                             <li>文章总数：</li>
                             <li>评价总数：</li>
                         </ul>
                     </div>
                     <div class="col-md-6">
-                        <ul style="margin: 0px;" class="padding0">
+                        <ul style="margin: 0px;list-style: none;" class="padding0">
                             <li>网站运行：</li>
                             <li>网站页数：12</li>
                         </ul>
