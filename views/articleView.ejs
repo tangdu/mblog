@@ -152,10 +152,10 @@
 
     $(window).scroll(function(){
         var sc=$(window).scrollTop();
-        if(sc>0){
-            $("#goTopBtn").css("display","block");
+        if(sc>150){
+            $("#goTopBtn").fadeIn(100);
         }else{
-            $("#goTopBtn").css("display","none");
+            $("#goTopBtn").fadeOut(100);
         }
     })
 

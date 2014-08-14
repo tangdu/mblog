@@ -74,11 +74,11 @@
                 <a href="/push_article" class="btn btn-lg btn-primary btn-block">发表文章</a>
             </div>
             <% } %>
-            <div class="panel" style="height:130px;text-align: center;border-top: 2px indianred solid;">
+            <div class="panel" style="height:100px;text-align: center;border-top: 2px indianred solid;">
                 <div class="panel-body">
-                    <div style="text-align: center;font-weight: bold;font-size: 20px;">
+                    <!--<div style="text-align: center;font-weight: bold;font-size: 20px;">
                         <i class="glyphicon glyphicon-home"> </i><%= Sys.cont.siteName %>博客
-                    </div>
+                    </div>-->
                     <div>
                         Express4+NodeJs+MySQL 打造博客网站
                     </div>
@@ -97,6 +97,7 @@
                 <div class="panel-body ylabel"  style="padding: 12px 13px 10px 15px;">
                    <a>Spring</a><a>Mybatis</a><a>ExtJS</a><a>Jquery</a><a>Flex</a>
                    <a>Hibernate</a><a>JPA</a><a>Swing</a><a>JFX</a><a>Tomcat</a>
+                   <a>Weblogic</a><a>NodeJS</a><a>KendUI</a><a>Python</a><a>GoLang</a>
                 </div>
             </div>
 
@@ -152,10 +153,10 @@
     $(function(){
         $(window).scroll(function(){
             var sc=$(window).scrollTop();
-            if(sc>0){
-                $("#goTopBtn").css("display","block");
+            if(sc>150){
+                $("#goTopBtn").fadeIn(100);
             }else{
-                $("#goTopBtn").css("display","none");
+                $("#goTopBtn").fadeOut(100);
             }
         })
 
