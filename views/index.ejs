@@ -23,6 +23,9 @@
                     <div class="viewrecord">
                         <div class="row">
                             <div class="col-md-11" style="font-size: 17px;padding-top: 5px;">
+                                <%if(1==item.istop){%>
+                                <span class="label label-warning">置顶</span>
+                                <%}%>
                                 <a href="/article/view/<%= item.id_ %>" ><%= item.title %></a>
                             </div>
                             <div class="col-md-1">
@@ -74,19 +77,20 @@
                 <a href="/push_article" class="btn btn-lg btn-primary btn-block">发表文章</a>
             </div>
             <% } %>
-            <div class="panel" style="height:100px;text-align: center;border-top: 2px indianred solid;">
+            <div class="panel" style="height:85px;text-align: center;border-top: 2px indianred solid;">
                 <div class="panel-body">
                     <!--<div style="text-align: center;font-weight: bold;font-size: 20px;">
                         <i class="glyphicon glyphicon-home"> </i><%= Sys.cont.siteName %>博客
                     </div>-->
                     <div>
-                        Express4+NodeJs+MySQL 打造博客网站
+                        Express4+NodeJs+MySQL博客网站
                     </div>
                     <div>
-                        Email:tangdu0228yes@163.com
+                        tangdu0228yes@163.com
                     </div>
                     <div>
-                        <a href="https://github.com/tangdu/mblog" class="label" target="_blank">访问GitHub</a>
+                        <a href="https://github.com/tangdu/mblog" class="label label-success" target="_blank">访问GitHub</a>
+                        <a class="label label-primary" href="/update">更新记录</a>
                     </div>
                 </div>
             </div>
@@ -104,7 +108,7 @@
             <!--<span class="btn btn-sm slintbtn">热门评论</span>
             <div class="sline"></div>-->
             <div class="panel panel-default">
-                <div class="panel-heading">>>热门评论</div>
+                <div class="panel-heading">⇛热门评论</div>
                 <div class="panel-body padding0">
                     <% topArtideList.forEach(function(item){ %>
                     <div class="col-md-12 viewrecord_hot">
@@ -117,7 +121,7 @@
             <!--<span class="btn btn-sm slintbtn">站长统计</span>
             <div class="sline"></div>-->
             <div class="panel panel-default" style="height:100px;">
-                <div class="panel-heading">>>站长统计</div>
+                <div class="panel-heading">⇛站长统计</div>
                 <div class="panel-body padding0">
                     <div class="col-md-6" >
                         <ul style="margin: 0px;list-style: none;" class="padding0">
@@ -134,6 +138,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -158,6 +163,10 @@
             }else{
                 $("#goTopBtn").fadeOut(100);
             }
+        });
+        $("#goTopBtn").click(function(){
+            var sc=$(window).scrollTop();
+            $('body,html').animate({scrollTop: 0}, 500);
         })
 
         $("#viewstyle").click(function(){

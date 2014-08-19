@@ -44,15 +44,15 @@
 
         <div class="panel panel-default" style="border-top: 2px solid #008800">
             <div class="panel-heading">回复 <%if(comments && comments.length>0) {%>(<%=comments.length%>)<%}else{%>(0)<%}%>：</div>
-            <div class="panel-body" style="padding:0px;">
+            <div class="panel-body" style="padding:0px;" id="commmentsDiv">
                 <%if(comments && comments.length>0) {%>
-                    <% comments.forEach(function(item,i){ %>
-                    <div  style="padding:0px;height: 70px;border-bottom: 1px solid #126d8d;font-size: 12px;">
-                        <div class="col-md-10">
-                            #<%=(i+1)%>楼  <%= item.username %> <%=item.comment%>
+                    <% comments.forEach(function(item2,i){ %>
+                    <div  style="padding:0px;height: 60px;border-bottom: 1px solid #126d8d;font-size: 12px;">
+                        <div class="col-md-9">
+                            #<%=(i+1)%>楼  <b><%= item2.username %></b> <%=item2.comment%>
                         </div>
-                        <div class="col-md-2">
-                             | <a><%= moment(item.commenttime).format('MM-DD HH:m') %></a>
+                        <div class="col-md-3">
+                             | <a><%= moment(item2.commenttime).format('MM-DD HH:mm') %></a> | <a onclick="userCommentModalClick('<%= item2.userid %>','<%= item2.username %>','<%=item.id_%>')">回复</a>
                         </div>
                     </div>
                     <% })%>
@@ -65,9 +65,9 @@
         <div class="sline"></div>
         <div class="panel">
             <div class="panel-body">
-                <form class="form" action="/comment/add_comment" method="post">
+                <form class="form" action="/comment/add_comment" method="post" id="commentform">
                     <div class="form-group">
-                        <textarea class="form-control" style="height:150px;max-height: 150px;" name="usercomment"></textarea>
+                        <textarea class="form-control" style="height:130px;max-height: 150px;" name="usercomment"></textarea>
                     </div>
                     <div class="pull-left">
                     #请文明发言#
@@ -82,7 +82,7 @@
     </div>
 
     <div class="col-md-3">
-        <!----><div class="panel panel-default">
+            <div class="panel panel-default">
             <div class="panel-heading">
                 作者信息
             </div>
@@ -145,11 +145,31 @@
             </div>
         </div>-->
     </div>
+
+    <form class="form" action="/comment/add_comment" method="post" id="moform">
+        <div class="modal fade" id="userCommentModal" tabindex="-1" role="dialog" >
+            <div class="modal-dialog" style="width: 400px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <b> 回复: </b><span name="mheader"></span>
+                    </div>
+                    <div class="modal-body">
+                        <input name="commendid" class="hidden">
+                        <input name="artideid" class="hidden">
+                        <textarea class="form-control" style="max-width: 380px;height:130px;" name="usercomment" required="required"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                        <a class="btn btn-primary" id="usercommentSub">提交</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <div id="goTopBtn"></div>
 <%- include footer.ejs %>
 <script type="text/javascript">
-
     $(window).scroll(function(){
         var sc=$(window).scrollTop();
         if(sc>150){
@@ -161,7 +181,7 @@
 
     $("#goTopBtn").click(function(){
         var sc=$(window).scrollTop();
-        $('body,html').animate({scrollTop:0},500);
+        $('body,html').animate({scrollTop: 0}, 500);
     })
     //关注用户
     $("#userattention").bind("click",function(){
@@ -221,6 +241,21 @@
         }
         ,'json');
     });
+
+    //加载评论
+    function initComment(userComment){
+        if(userComment){
+            var tr='<div  style="padding:0px;height: 60px;border-bottom: 1px solid #126d8d;font-size: 12px;">'+
+            '<div class="col-md-9">'+
+            '#'+userComment.commentsCot+'楼  <b>'+userComment.username+'</b>'+userComment.comment+
+            ' </div>'+
+            '<div class="col-md-3">'+
+            ' | <a>'+ userComment.commenttime +'</a> | <a onclick=userCommentModalClick("'+userComment.userid+'","'+userComment.username+'","'+userComment.artideid+'")>回复</a>'+
+            '</div>'+
+            '</div></div>';
+            $("#commmentsDiv").append(tr);
+        }
+    }
     //提交评论
     $("#submitComment").bind('click',function(){
         if(!_islogin){
@@ -228,7 +263,7 @@
             return;
         }
         //validate
-        var usercomment=$("textarea[name=usercomment]").val();
+        var usercomment=$("#commentform textarea[name=usercomment]").val();
         if(usercomment==null || usercomment==""){
             $.showErr("回复内容不能为空!");
             return;
@@ -238,17 +273,47 @@
         {artideid:$("#submitComment").attr("value"),comment:usercomment},
         function(data){
             if(data.success){
-                /*var commments=data.comments;
-                var comments_id=$("#comments_id");
-                comments_id.empty();
-                for(var i=0;i<commments.length;i++){
-                    comments_id.append(commments[i].comment);
-                }*/
-                $("textarea[name=usercomment]").val("");
+                initComment(data.userComment);
+                $("#commentform textarea[name=usercomment]").val("");
             }
         }
         ,'json');
     });
+
+    //serialize
+    $("#usercommentSub").bind('click',function(){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        //validate
+        var usercomment=$("#moform textarea[name=usercomment]").val();
+        if(usercomment==null || usercomment==""){
+            $.showErr("回复内容不能为空!");
+            return;
+        }
+
+        $.post('/comment/add_comment',
+                {artideid:$("#moform input[name=artideid]").val(),commendid:$("#moform input[name=commendid]").val(),comment:usercomment},
+                function(data){
+                    if(data.success){
+
+                        $("#moform textarea[name=usercomment]").val("");
+                        $("#userCommentModal").modal('hide');
+                    }
+                }
+                ,'json');
+    });
+    function userCommentModalClick(userid,username,artideid){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        $("#userCommentModal").modal();
+        $("#userCommentModal input[name=commendid]").val(userid);
+        $("#userCommentModal span[name=mheader]").text(username);
+        $("#userCommentModal input[name=artideid]").val(artideid);
+    }
 </script>
 </body>
 </html>

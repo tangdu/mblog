@@ -17,17 +17,16 @@ router.post("/add_comment",function(req,res,next){
             if(err){
                 next(err);
             }else{
-                cb(null,{});
+                cb(null,{userComment:commentBean});
             }
         });
     },function(data,cb){
         var params=[commentBean.artideid];
-        var page=new Page({end:10});
-        UserComment.queryPageBySql("select * from t_ef_user_comment where commendid is null and artideid=? order by commenttime asc",page,params,function(err,result){
+        UserComment.countBySql("select * from t_ef_user_comment where commendid is null and artideid=?",params,function(err,result){
             if (err) {
                 next(err);
             } else {
-                data.comments=page.data;
+                data.userComment.commentsCot=result;
                 cb(null,data);
             }
         });
@@ -35,7 +34,10 @@ router.post("/add_comment",function(req,res,next){
         if(err){
             next(err);
         }
-        res.json({success:true,comments:data.comments});
+        data.success=true;
+        data.userComment.commenttime=moment(data.userComment.commenttime).format('MM-DD HH:mm');
+        data.userComment.username=req.session.user.username;
+        res.json(data);
     });
 });
 

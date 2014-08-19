@@ -49,7 +49,7 @@ function createView(link){
                     "FROM\n" +
                     "	t_ef_article t1 where  t1.status='1' ";
                 if(link.value==="index"){
-                    sql+=" order by created desc";
+                    sql+=" order by istop desc,updated desc";
                 }else{
                     sql+=" and type=?";
                     params=[req.url.substr(req.url.lastIndexOf("/")+1)];
@@ -123,6 +123,10 @@ router.get("/register",function(req,res){
     res.render('register', { message: false});
 });
 
+//更新记录
+router.get("/update",function(req,res){
+    res.render('update');
+});
 
 
 

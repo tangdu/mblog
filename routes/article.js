@@ -77,7 +77,7 @@ router.get("/view/:id_", function (req, res,next) {
             },function(data,cb){//9 文章回复
                 var params=[pid];
                 var page=new Page({end:10});
-                UserComment.queryPageBySql("select t1.*,t2.username from t_ef_user_comment t1 join t_ef_user t2 on t1.userid=t2.id_ where commendid is null and artideid=? order by commenttime desc",page,params,function(err,result){
+                UserComment.queryPageBySql("select t1.*,t2.username from t_ef_user_comment t1 join t_ef_user t2 on t1.userid=t2.id_ where commendid is null and artideid=? order by commenttime asc",page,params,function(err,result){
                     data.comments=page.data;
                     cb(err,data);
                 });
