@@ -114,3 +114,19 @@ body > .container {
 .padding0{
     padding: 0px !important;
 }
+
+.viewrecord .titlea a{
+    color:#003399;
+}
+.viewrecord .opera a{
+    color:#CC0033;
+}
+.viewrecord_hot a,.viewrecord a{
+    color: #000000;
+}
+.viewrecord_hot a:hover,.viewrecord a:hover{
+    color: #99CC66;
+}
+.panel-default > .panel-heading {
+    background-color: #F5F5F5 !important;
+}

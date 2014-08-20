@@ -9,6 +9,7 @@ var multiparty=require("connect-multiparty");
 var session=require("express-session");
 global.logger=require("./utils/logger.js");
 global.moment = require('moment');//日期函数全局访问
+global.moment.locale('zh-cn');
 global.DB=require("./utils/dbutil.js").Instance();
 
 ///定义实体

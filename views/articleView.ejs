@@ -29,7 +29,7 @@
                     </div>
                     <div class="row" style="border-top:solid 1px #F6F6F6;padding-top: 5px;">
                         <div class="pull-left" style="font-size: 9px;">
-                            <%=item.keyword%>
+                            <i class="glyphicon glyphicon-tag"></i> <%=item.keyword%>
                         </div>
                         <div class="pull-right" >
                             <!--<button type="button" class="btn btn-success"><i class="glyphicon glyphicon-share-alt">发表评论</i></button>-->
@@ -42,17 +42,17 @@
             </div>
         </div>
 
-        <div class="panel panel-default" style="border-top: 2px solid #008800">
+        <div class="panel panel-default" style="margin-top: 30px;"><!-- style="border-top: 2px solid #008800;"-->
             <div class="panel-heading">回复 <%if(comments && comments.length>0) {%>(<%=comments.length%>)<%}else{%>(0)<%}%>：</div>
             <div class="panel-body" style="padding:0px;" id="commmentsDiv">
                 <%if(comments && comments.length>0) {%>
                     <% comments.forEach(function(item2,i){ %>
-                    <div  style="padding:0px;height: 60px;border-bottom: 1px solid #126d8d;font-size: 12px;">
-                        <div class="col-md-9">
+                    <div  style="padding:0px;height: 60px;border-bottom: 1px solid #eed3d7;font-size: 12px;">
+                        <div class="col-md-12">
                             #<%=(i+1)%>楼  <b><%= item2.username %></b> <%=item2.comment%>
-                        </div>
-                        <div class="col-md-3">
-                             | <a><%= moment(item2.commenttime).format('MM-DD HH:mm') %></a> | <a onclick="userCommentModalClick('<%= item2.userid %>','<%= item2.username %>','<%=item.id_%>')">回复</a>
+                            <span class="pull-right">
+                                | <a><%= moment(item2.commenttime).format('MM-DD HH:mm') %></a> | <a onclick="userCommentModalClick('<%= item2.userid %>','<%= item2.username %>','<%=item.id_%>')">回复</a>
+                            </span>
                         </div>
                     </div>
                     <% })%>
