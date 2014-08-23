@@ -13,7 +13,7 @@ global.moment.locale('zh-cn');
 global.DB=require("./utils/dbutil.js").Instance();
 
 ///定义实体
-DB.define({key:'User',name:'t_ef_user',fields:['id_','username','password','sex','status','role','email','integral','desc','lastlogintime','registertime','lastloginip']});
+DB.define({key:'User',name:'t_ef_user',fields:['id_','username','password','sex','updated','status','role','email','integral','desc','lastlogintime','registertime','lastloginip']});
 DB.define({key:'Article',name:'t_ef_article',fields:['id_','digest','title','type','created','updated','content','order','status','userid','username','commentsnum','allowcomment','readcount','keyword','istop']});
 DB.define({key:'UserAttention',name:'t_ef_user_attention',fields:['id_','userid','relid','type','operationtime']});
 DB.define({key:'UserComment',name:'t_ef_user_comment',fields:['id_','userid','artideid','comment','commenttime','commendid']});
@@ -49,7 +49,7 @@ app.all("*",function(req,res,next){
     //后台管理员权限过滤
     if(!_flag){
         Sys.adminUrls.forEach(function(r){
-            if(req.url.indexOf(r)>-1){
+            if(req.url.indexOf(r)>-1){//bug 得用正则
                 _idadminurl=true;
                 return;
             }

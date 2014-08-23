@@ -35,21 +35,23 @@ Table.prototype.checkTable=function(values){
 }
 //clear表字段
 Table.prototype.clearTable=function(values){
+    console.log(values);
     if(values && this.fields){
         for(var prop in values){
             var flag=false;
-            var prop_;
+            var prop_=null;
             for(var i=0;i<this.fields.length;i++){
                 var r=this.fields[i];
-                if(r===prop|| r.name===prop){
+                if(r===prop||r.name===prop){
                     flag=true;
                     prop_=prop;
                     break;
                 }
             }
-            if(!flag){
-                console.log("+++++++++++++++"+prop_);
+            if(!flag && prop_!=null){
+                console.log("-not match property-"+prop_);
                 delete values[prop];
+                prop_=null;
             }
         }
     }
@@ -121,6 +123,27 @@ Table.prototype.update = function(values, callback) {
     if (this.clearTable(values)) {
         this.getConnection(function(connection) {
             var query = connection.query("update  " + me.tablename + " set ? where id_=" + connection.escape(values.id_), values, function(err, result) {
+                if (err) {
+                    callback(err,result);
+                }else{
+                    callback(null,result);
+                }
+                connection.release(); //release
+            });
+            logger.debug(query.sql);
+        });
+    }
+};
+
+//execute
+Table.prototype.execute = function(sql,values, callback) {
+    if(!callback){
+        callback=function(){};
+    }
+    var me=this;
+    if (this.clearTable(values)) {
+        this.getConnection(function(connection) {
+            var query = connection.query(sql, values, function(err, result) {
                 if (err) {
                     callback(err,result);
                 }else{

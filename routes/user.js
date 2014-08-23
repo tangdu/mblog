@@ -169,5 +169,22 @@ router.get("/view/:id/:linkType",function(req,res,next){
 });
 
 
+router.post("/udpate",function(req,res,next){
+    var User=DB.get("User");
+    var user = req.body;
+    delete  user["account"];
+    user.updated = new Date();
+    if(!user.desc||user.desc==""){
+        user.desc="无说明，特优秀";
+    }
+
+    User.update(user,function(err,result){
+        if(err){
+            next(err);
+        }else{
+            res.redirect("info/grxx");
+        }
+    });
+});
 
 module.exports = router;

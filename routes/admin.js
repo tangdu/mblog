@@ -71,4 +71,15 @@ router.get("/remove_user/:id_",function(req,res,next){
     }
 });
 
+router.get("/article_top/:id_/:flag_",function(req,res,next){
+    var Article=DB.get("Article");
+    var article={istop:req.params.flag_,id_:req.params.id_};
+    Article.update(article,function(err,result){
+        if(err){
+            next(err);
+        }else{
+            res.redirect("/admin/articlemanager");
+        }
+    });
+});
 module.exports = router;

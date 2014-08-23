@@ -18,14 +18,16 @@
                     <% articles.data.forEach(function(item){ %>
                     <div class="viewrecord">
                         <div class="row">
-                            <div class="col-md-10" style="font-size: 17px;padding-top: 5px;">
+                            <div class="col-md-12" style="font-size: 17px;padding-top: 5px;">
                                 <a href="/article/view/<%= item.id_ %>" ><%= item.title %></a>
-                            </div>
-                            <div class="col-md-2" style="padding-top: 0px;">
-                                <% if (locals.user && locals.user.role==="1") { %>
-                                 <a  class="btn btn-sm btn-primary" href="/edit_article/<%=item.id_%>"><i class="glyphicon glyphicon-edit"></i> 编辑</a>
-                                 <a  class="btn btn-sm btn-danger" href="/admin/remove_article/<%=item.id_%>"><i class="glyphicon glyphicon-remove"></i> 删除</a>
-                                <%}%>
+
+                                <span class="pull-right">
+                                    <% if (locals.user && locals.user.role==="1") { %>
+                                    <a  class="label " href="/edit_article/<%=item.id_%>"><i class="glyphicon glyphicon-edit"></i> 编辑</a>
+                                    <a  class="label <%=(item.istop=="1" ? "" :"label-primary")%>" href="/admin/article_top/<%=item.id_%>/<%=(item.istop=="1" ? "0" :"1")%>"><i class="glyphicon glyphicon-flag"></i> 置顶</a>
+                                    <a  class="label label-danger" href="/admin/remove_article/<%=item.id_%>"><i class="glyphicon glyphicon-remove"></i> 删除</a>
+                                    <%}%>
+                                </span>
                             </div>
                         </div>
                         <div  class="row" style="padding-left: 20px;" >
