@@ -26,7 +26,7 @@ function createView(link){
             function (cb){
                 var data={};
                 var params=null;
-                var page=new Page({page:ipage,pageSize:12});
+                var page=new Page({page:ipage,pageSize:20});
                 var sql="SELECT\n" +
                     "	t1.*, (\n" +
                     "		SELECT\n" +

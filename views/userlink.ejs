@@ -53,9 +53,9 @@
         </div>
 
         <div class="col-md-3">
-            <div class="panel" style="height:250px;">
+            <div class="panel" style="height:200px;">
                 <div class="panel-body">
-                    <img src="/static/img/tz.png">
+                    <img style="float: left;margin-right: 20px;" src="/static/img/tz.png">
                     <%=userInfo.username%>
                     <div>积分:<%=userInfo.integral%></div>
                     <%if (locals.user && locals.user.id_!=userInfo.id_) {%>

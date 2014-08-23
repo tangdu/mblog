@@ -42,7 +42,7 @@ $(function(){
             .css({"border":"1px #FFFFFF solid"})
             .css({"-webkit-border-radius":"3px 3px 10px 10px","border-radius":"3px 3px 10px 10px"});
         panel.animate({
-            top:+50,
+            top:+70,
             opacity: +.5
         },500);
         var hideFuc=function(){

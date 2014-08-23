@@ -9,7 +9,7 @@
 
 <div class="container">
     <div class="col-md-9">
-        <div class="panel panel-default" style="border-top: 2px solid #126d8d">
+        <div class="panel panel-default" style="border-top: 2px solid #CC6600">
             <div class="panel-body">
                 <div class="col-md-12">
                     <div class="row">
@@ -33,9 +33,9 @@
                         </div>
                         <div class="pull-right" >
                             <!--<button type="button" class="btn btn-success"><i class="glyphicon glyphicon-share-alt">发表评论</i></button>-->
-                            <button type="button" class="btn btn-primary" id="userdown" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-down"> <%=userdownCot%></i></button>
-                            <button type="button" class="btn btn-primary" id="userbookmark" value="<%=item.id_%>"><i class="glyphicon glyphicon-bookmark"> <%=shouCot%></i></button>
-                            <button type="button" class="btn btn-primary" id="userup" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-up"> <%=userupCot%></i></button>
+                            <button type="button" class="btn btn-primary btn-sm" id="userdown" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-down"> <%=userdownCot%></i></button>
+                            <button type="button" class="btn btn-primary btn-sm" id="userbookmark" value="<%=item.id_%>"><i class="glyphicon glyphicon-bookmark"> <%=shouCot%></i></button>
+                            <button type="button" class="btn btn-primary btn-sm" id="userup" value="<%=item.id_%>"><i class="glyphicon glyphicon-thumbs-up"> <%=userupCot%></i></button>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                         <div class="col-md-12">
                             #<%=(i+1)%>楼  <b><%= item2.username %></b> <%=item2.comment%>
                             <span class="pull-right">
-                                | <a><%= moment(item2.commenttime).format('MM-DD HH:mm') %></a> | <a onclick="userCommentModalClick('<%= item2.userid %>','<%= item2.username %>','<%=item.id_%>')">回复</a>
+                                | <a><%= moment(item2.commenttime).format('MM-DD HH:mm') %></a><% if (locals.user != null){%> | <a onclick="userCommentModalClick('<%= item2.userid %>','<%= item2.username %>','<%=item.id_%>')">回复</a><%}%>
                             </span>
                         </div>
                     </div>
@@ -61,6 +61,7 @@
                 <%}%>
             </div>
         </div>
+        <% if (locals.user != null){%>
         <span class="btn btn-sm slintbtn">评论:<%= item.title %></span>
         <div class="sline"></div>
         <div class="panel">
@@ -79,6 +80,7 @@
                 </form>
             </div>
         </div>
+        <%}%>
     </div>
 
     <div class="col-md-3">
@@ -103,13 +105,12 @@
                     <div><span class="bwz"><%=moment(userInfo.lastlogintime).format('YYYY年MM月DD日 HH:SS')%></span> 最后登录</div>
                     <div>用户简介:<%=userInfo.desc%></div>
                 <%}else {%>
-                    <img src="/static/img/tz.png">
-                    <a href="/user/view/<%=userInfo.id_%>/wdwz"><%=userInfo.username%></a>
-                    <button class="btn btn-info" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
+                    <img style="float: left;margin-right: 20px;" src="/static/img/tz.png">
+                    <a style="float: left;"  href="/user/view/<%=userInfo.id_%>/wdwz"><%=userInfo.username%></a><br>
+                    <button class="btn btn-primary btn-sm" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
                     <div>积分:<%=userInfo.integral%></div>
                     <div>粉丝:</div>
-                    <div>关注:</div>
-                    <div>文章/评论:</div>
+                    <div style="float: left;clear: both" ><%=userInfo.desc%></div>
                 <%}%>
             </div>
         </div>
@@ -246,12 +247,11 @@
     function initComment(userComment){
         if(userComment){
             var tr='<div  style="padding:0px;height: 60px;border-bottom: 1px solid #126d8d;font-size: 12px;">'+
-            '<div class="col-md-9">'+
+            '<div class="col-md-2">'+
             '#'+userComment.commentsCot+'楼  <b>'+userComment.username+'</b>'+userComment.comment+
-            ' </div>'+
-            '<div class="col-md-3">'+
+            '<span class="pull-right">'+
             ' | <a>'+ userComment.commenttime +'</a> | <a onclick=userCommentModalClick("'+userComment.userid+'","'+userComment.username+'","'+userComment.artideid+'")>回复</a>'+
-            '</div>'+
+            '</span>'+
             '</div></div>';
             $("#commmentsDiv").append(tr);
         }
