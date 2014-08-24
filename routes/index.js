@@ -62,10 +62,10 @@ function createView(link){
             function(data,cb){
                 var page2=new Page({end:10});
                 var sql="select * from t_ef_article t3 join (\n" +
-                    "select count(1),t1.id_ as arid from t_ef_article t1 left join \n" +
+                    "select count(1) rt,t1.id_ as arid from t_ef_article t1 left join \n" +
                     "t_ef_user_comment t2 on t1.id_=t2.artideid\n" +
                     "and t2.commendid is null \n" +
-                    "group by t1.id_ order by count(1) desc) t4 on t3.id_=t4.arid";
+                    "group by t1.id_ ) t4 on t3.id_=t4.arid order by t4.rt desc";
                 Article.queryPageBySql(sql,page2,null,function(err,result){
                     data.topArtideList=page2.data;
                     cb(err,data);

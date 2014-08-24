@@ -2,6 +2,7 @@
 var debug = require('debug')('my-application');
 var app = require('../app');
 var conf=require("../config.js");
+//TODO 代理访问更慢了。nginx也是一样的.
 //var httpProxy=require('http-proxy');
 //httpProxy.createProxyServer({target:'http://localhost:'+conf.appport}).listen(80);
 
