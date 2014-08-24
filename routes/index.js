@@ -101,7 +101,11 @@ router.get("/edit_article/:articledID",function(req,res,next){
             if(err){
                 next(err);
             }else{
-                res.render('pushArticle',{article:result,flag:'edit'});
+                if(result.userid!=req.session.user.id_){//如果不是自己文章，error
+                    next(new Error("文章不存在"));
+                }else{
+                    res.render('pushArticle',{article:result,flag:'edit'});
+                }
             }
         });
     }else{

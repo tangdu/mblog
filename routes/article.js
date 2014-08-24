@@ -94,19 +94,30 @@ router.get("/view/:id_", function (req, res,next) {
     }
 });
 
-router.post("/save_article", function (req, res) {
+router.post("/save_article", function (req, res,next) {
     var Article=DB.get("Article");
     var articleBean = req.body;
     if(articleBean.flag=="edit"){//修改
-        articleBean.updated = new Date();
-        articleBean.userid=req.session.user.id_;
-        articleBean.username=req.session.user.username;
-        articleBean.content = articleBean.content.replace(BAG_REG, '');
-        Article.update(articleBean, function (err, result) {
-            if (err) {
+        Article.get(articleBean.id_,function(err,result){
+            if(err){
                 next(err);
-            } else {
-                res.redirect("/");
+            }else {
+                if (result.userid != req.session.user.id_) {//如果不是自己文章，error
+                    next(new Error("文章不存在"));
+                } else {
+
+                    articleBean.updated = new Date();
+                    articleBean.userid=req.session.user.id_;
+                    articleBean.username=req.session.user.username;
+                    articleBean.content = articleBean.content.replace(BAG_REG, '');
+                    Article.update(articleBean, function (err, result) {
+                        if (err) {
+                            next(err);
+                        } else {
+                            res.redirect("/");
+                        }
+                    });
+                }
             }
         });
     }else{//新增

@@ -2,7 +2,8 @@
 var debug = require('debug')('my-application');
 var app = require('../app');
 var conf=require("../config.js");
-
+//var httpProxy=require('http-proxy');
+//httpProxy.createProxyServer({target:'http://localhost:'+conf.appport}).listen(80);
 
 app.listen(conf.appport, function() {
     var date = new Date();

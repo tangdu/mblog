@@ -35,23 +35,19 @@ Table.prototype.checkTable=function(values){
 }
 //clear表字段
 Table.prototype.clearTable=function(values){
-    console.log(values);
     if(values && this.fields){
         for(var prop in values){
             var flag=false;
-            var prop_=null;
             for(var i=0;i<this.fields.length;i++){
                 var r=this.fields[i];
                 if(r===prop||r.name===prop){
                     flag=true;
-                    prop_=prop;
                     break;
                 }
             }
-            if(!flag && prop_!=null){
-                console.log("-not match property-"+prop_);
+            if(!flag && prop!=null){
+                console.error("-not match property-"+prop);
                 delete values[prop];
-                prop_=null;
             }
         }
     }
