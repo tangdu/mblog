@@ -96,6 +96,7 @@ router.get("/view/:id_", function (req, res,next) {
 
 router.post("/save_article", function (req, res,next) {
     var Article=DB.get("Article");
+    var User=DB.get("User");
     var articleBean = req.body;
     if(articleBean.flag=="edit"){//修改
         Article.get(articleBean.id_,function(err,result){
@@ -127,10 +128,21 @@ router.post("/save_article", function (req, res,next) {
         articleBean.userid=req.session.user.id_;
         articleBean.username=req.session.user.username;
         articleBean.content = articleBean.content.replace(BAG_REG, '');
-        Article.insert(articleBean, function (err, result) {
-            if (err) {
+        async.waterfall([
+            function(cb){
+                Article.insert(articleBean, function (err, result) {
+                    cb(err,{});
+                });
+            },function(data,cb){
+                var sql="update t_ef_user t set t.integral=t.integral+1 where t.id_=?";
+                User.executeSql(sql,[req.session.user.id_],function(err,result){
+                    cb(err,{});
+                });
+            }
+        ],function(err,result){
+            if(err){
                 next(err);
-            } else {
+            }else{
                 res.redirect("/");
             }
         });

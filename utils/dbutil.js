@@ -131,26 +131,7 @@ Table.prototype.update = function(values, callback) {
     }
 };
 
-//execute
-Table.prototype.execute = function(sql,values, callback) {
-    if(!callback){
-        callback=function(){};
-    }
-    var me=this;
-    if (this.clearTable(values)) {
-        this.getConnection(function(connection) {
-            var query = connection.query(sql, values, function(err, result) {
-                if (err) {
-                    callback(err,result);
-                }else{
-                    callback(null,result);
-                }
-                connection.release(); //release
-            });
-            logger.debug(query.sql);
-        });
-    }
-};
+
 
 //delete
 Table.prototype.remove = function(ID, callback) {
@@ -412,7 +393,7 @@ Table.prototype.queryPage = function(page,params, callback) {
     this.queryPageBySql(sql,page,callback);
 }
 
-
+//executeSql
 Table.prototype.executeSql = function(sql,params, callback) {
     if(!callback){
         callback=function(){};
@@ -434,7 +415,26 @@ Table.prototype.executeSql = function(sql,params, callback) {
         logger.debug(query.sql);
     });
 }
-
+//execute
+/*Table.prototype.execute = function(sql,values, callback) {
+    if(!callback){
+        callback=function(){};
+    }
+    var me=this;
+    if (this.clearTable(values)) {
+        this.getConnection(function(connection) {
+            var query = connection.query(sql, values, function(err, result) {
+                if (err) {
+                    callback(err,result);
+                }else{
+                    callback(null,result);
+                }
+                connection.release(); //release
+            });
+            logger.debug(query.sql);
+        });
+    }
+};*/
 
 var createPool = function() {
     if(pool==null){
