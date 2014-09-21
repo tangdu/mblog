@@ -17,6 +17,7 @@ router.post("/add_comment",function(req,res,next){
             if(err){
                 next(err);
             }else{
+                commentBean.id_=result;
                 cb(null,{userComment:commentBean});
             }
         });
@@ -38,6 +39,18 @@ router.post("/add_comment",function(req,res,next){
         data.userComment.commenttime=moment(data.userComment.commenttime).format('MM-DD HH:mm');
         data.userComment.username=req.session.user.username;
         res.json(data);
+    });
+});
+
+//删除评论
+router.post("/remove_comment/:comment_id",function(req,res,next){
+    var UserComment=DB.get("UserComment");
+    var commentid=req.params.comment_id;
+    UserComment.remove(commentid,function(err,result){
+        if(err){
+            res.json({success:false});
+        }
+        res.json({success:true});
     });
 });
 

@@ -47,11 +47,16 @@
             <div class="panel-body" style="padding:0px;" id="commmentsDiv">
                 <%if(comments && comments.length>0) {%>
                     <% comments.forEach(function(item2,i){ %>
-                    <div  style="padding:0px;height: 60px;border-bottom: 1px solid #eed3d7;font-size: 12px;">
+                    <div  style="margin-top:5px;margin-bottom:5px;height: 50px;border-bottom: 1px solid #eed3d7;font-size: 12px;">
                         <div class="col-md-12">
-                            #<%=(i+1)%>楼  <b><%= item2.username %></b> <%=item2.comment%>
+                            <span class="msno">#<%=(i+1)%></span> 楼  <b><%= item2.username %></b> <%=item2.comment%>
                             <span class="pull-right">
-                                | <a><%= moment(item2.commenttime).format('MM-DD HH:mm') %></a><% if (locals.user != null){%> | <a onclick="userCommentModalClick('<%= item2.userid %>','<%= item2.username %>','<%=item.id_%>')">回复</a><%}%>
+                                | <a><%= moment(item2.commenttime).format('MM-DD HH:mm') %></a>
+                                <% if (locals.user != null){%> | <a onclick="userCommentModalClick('<%= item2.userid %>','<%= item2.username %>','<%=item.id_%>')">回复</a>
+                                    <%if (item2.userid==locals.user.id_|| locals.user.role==="1"){%>
+                                    |  <a onclick="userCommentDelClick('<%=item2.id_%>',this)">删除</a>
+                                    <%}%>
+                                <%}%>
                             </span>
                         </div>
                     </div>
@@ -88,7 +93,8 @@
             <div class="panel-heading">
                 作者信息
             </div>
-            <div class="panel-body">
+            <div class="panel-body defColor">
+                <img src="/static/img/tz.png">
                 <%if (locals.user && locals.user.id_==userInfo.id_) {%>
                     <a href="/user/view/<%=userInfo.id_%>/wdwz"><%=userInfo.username%></a>
                     <%if(userInfo.role==="1"){%>
@@ -97,20 +103,19 @@
                     <span style="color: dodgerblue;" class="bwz">会员</span>
                     <%}%>
                     <%if (locals.user && locals.user.id_!=userInfo.id_) {%>
-                    <button class="btn btn-info" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
+                    <button class="btn btn-info pull-right" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
                     <%}%>
-                    <img src="/static/img/tz.png">
                     <div>积分:<%=userInfo.integral%></div>
                     <div><span class="bwz"><%=moment(userInfo.registertime).format('YYYY年MM月DD日 HH:SS')%></span> 注册</div>
-                    <div><span class="bwz"><%=moment(userInfo.lastlogintime).format('YYYY年MM月DD日 HH:SS')%></span> 最后登录</div>
+                    <br>
                     <div>用户简介:<%=userInfo.desc%></div>
                 <%}else {%>
-                    <img style="float: left;margin-right: 20px;" src="/static/img/tz.png">
-                    <a style="float: left;"  href="/user/view/<%=userInfo.id_%>/wdwz"><%=userInfo.username%></a><br>
-                    <button class="btn btn-primary btn-sm" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
+                    <a  href="/user/view/<%=userInfo.id_%>/wdwz"><%=userInfo.username%></a>
+                    <button class="btn btn-primary btn-sm pull-right" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
                     <div>积分:<%=userInfo.integral%></div>
-                    <div>粉丝:</div>
-                    <div style="float: left;clear: both" ><%=userInfo.desc%></div>
+                    <div><span class="bwz"><%=moment(userInfo.registertime).format('YYYY年MM月DD日 HH:SS')%></span> 注册</div>
+                    <br>
+                    <div>用户简介:<%=userInfo.desc%></div>
                 <%}%>
             </div>
         </div>
@@ -246,13 +251,14 @@
     //加载评论
     function initComment(userComment){
         if(userComment){
-            var tr='<div  style="padding:0px;height: 60px;border-bottom: 1px solid #126d8d;font-size: 12px;">'+
-            '<div class="col-md-2">'+
-            '#'+userComment.commentsCot+'楼  <b>'+userComment.username+'</b>'+userComment.comment+
+            var tr='<div  style="padding:0px;height: 50px;border-bottom: 1px solid #126d8d;font-size: 12px;">'+
+            '<div class="col-md-12">'+
+            '#'+userComment.commentsCot+'楼  <b>'+userComment.username+'</b> '+userComment.comment+
             '<span class="pull-right">'+
             ' | <a>'+ userComment.commenttime +'</a> | <a onclick=userCommentModalClick("'+userComment.userid+'","'+userComment.username+'","'+userComment.artideid+'")>回复</a>'+
+            ' | <a onclick=userCommentDelClick("'+userComment.id_+'",this)>删除</a>'+
             '</span>'+
-            '</div></div>';
+            '</div>';
             $("#commmentsDiv").append(tr);
         }
     }
@@ -313,6 +319,25 @@
         $("#userCommentModal input[name=commendid]").val(userid);
         $("#userCommentModal span[name=mheader]").text(username);
         $("#userCommentModal input[name=artideid]").val(artideid);
+    }
+    function userCommentDelClick(commentId,obj){
+        if(!_islogin){
+            $.showMsg("您还没有登录");
+            return;
+        }
+        $.post("/comment/remove_comment/"+commentId,{},function(data){
+           if(data.success){
+               var row=$(obj).closest("div").parent();
+               row.remove();
+               updataSno();
+           }
+        },"json");
+    }
+    function updataSno(){
+       var snos= $("#commmentsDiv span[class=msno]");
+        $.each(snos,function(i,r){
+            $(this).text("#"+(i+1));
+        });
     }
 </script>
 </body>

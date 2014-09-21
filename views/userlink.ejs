@@ -53,16 +53,16 @@
         </div>
 
         <div class="col-md-3">
-            <div class="panel" style="height:200px;">
-                <div class="panel-body">
-                    <img style="float: left;margin-right: 20px;" src="/static/img/tz.png">
+            <div class="panel" style="height:180px;">
+                <div class="panel-body defColor">
+                    <img src="/static/img/tz.png">
                     <%=userInfo.username%>
                     <div>积分:<%=userInfo.integral%></div>
                     <%if (locals.user && locals.user.id_!=userInfo.id_) {%>
                     <button class="btn btn-info" id="userattention" value="<%=userInfo.id_%>" >+关注</button>
                     <%}%>
                     <div><span class="bwz"><%=moment(userInfo.registertime).format('YYYY年MM月DD日 HH:SS')%></span> 注册</div>
-                    <div><span class="bwz"><%=moment(userInfo.lastlogintime).format('YYYY年MM月DD日 HH:SS')%></span> 最后登录</div>
+                    <br>
                     <div>用户简介:<%=userInfo.desc%></div>
                 </div>
             </div>

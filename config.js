@@ -68,7 +68,7 @@ global.Sys =new function(){
         "/push_article", "/save_article",
         "/add_userattention","edit_article",
         "/add_artideattention","/add_comment",
-        "/user_up_artide","/user/info","/remove_article"
+        "/user_up_artide","/user/info","/remove_article","/remove_comment"
     ]
     //管理员权限
     this.adminUrls=[

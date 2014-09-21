@@ -80,7 +80,7 @@ Table.prototype.insert = function(values, callback) {
                 if (err) {
                     callback(err,null);
                 }else{
-                    callback(null,result);
+                    callback(null,values["id_"]);//TODO　返回生成ＩＤ
                 }
                 connection.release(); //release
             });

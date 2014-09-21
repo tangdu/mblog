@@ -78,8 +78,8 @@
             <%}%>
         </div>
         <div class="col-md-3">
-            <div class="panel" style="height:250px;">
-                <div class="panel-body">
+            <div class="panel" style="height:200px;">
+                <div class="panel-body defColor">
                     <img src="/static/img/tz.png">
                     <%if(userInfo.role==="1"){%>
                     <span>管理员</span>
@@ -90,7 +90,7 @@
                     <div>Email:<%=userInfo.email%></div>
                     <div>积分:<span style="color: red;"><%=userInfo.integral%></span></div>
                     <div><%=moment(userInfo.registertime).format('YYYY年MM月DD日 HH:SS')%> 注册</div>
-                    <div><%=moment(userInfo.lastlogintime).format('YYYY年MM月DD日 HH:SS')%> 最后登录</div>
+                    <br>
                     <div>用户简介:<%=userInfo.desc%></div>
                 </div>
             </div>
