@@ -7,9 +7,9 @@ var app = {
     appport: 3000,
     host: 'localhost',
     port: '3306',
-    user: 'elife',
-    password: 'elife',
-    database: 'elife',
+    user: 'blog',
+    password: 'blog',
+    database: 'blog_db',
     logger_path: "./bin/logs/error.log",
     logger_level: 'debug' //debug | error
 };

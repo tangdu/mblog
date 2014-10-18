@@ -24,7 +24,7 @@
                             <%}%>
                         </span>
                     </div>
-                    <div class="row" style="border-top:solid 1px #F6F6F6;padding-top: 20px;margin-top: 5px;">
+                    <div class="row" style="border-top:solid 1px #F6F6F6;padding-top: 20px;margin-top: 5px;min-height:500px;">
                         <%- item.content %>
                     </div>
                     <div class="row" style="border-top:solid 1px #F6F6F6;padding-top: 5px;">
@@ -43,7 +43,7 @@
         </div>
 
         <div class="panel panel-default" style="margin-top: 30px;"><!-- style="border-top: 2px solid #008800;"-->
-            <div class="panel-heading">回复 <%if(comments && comments.length>0) {%>(<%=comments.length%>)<%}else{%>(0)<%}%>：</div>
+            <div class="panel-heading">回复 <span id="commentsNum"><%if(comments && comments.length>0) {%>(<%=comments.length%>)<%}else{%>(0)<%}%>：</span></div>
             <div class="panel-body" style="padding:0px;" id="commmentsDiv">
                 <%if(comments && comments.length>0) {%>
                     <% comments.forEach(function(item2,i){ %>
@@ -132,13 +132,13 @@
                 <% }) %>
             </div>
         </div>
-        <div class="panel panel-default">
+        <!--<div class="panel panel-default">
             <div class="panel-heading">
                 -并无此文-
             </div>
 
         </div>
-        <!--<div class="panel panel-default">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 热门文章
             </div>
@@ -338,6 +338,10 @@
         $.each(snos,function(i,r){
             $(this).text("#"+(i+1));
         });
+        $("#commentsNum").text("("+snos.size()+")：");
+        if(snos.size()==0){
+            $("#commmentsDiv").append('<div class="center-block" style="width: 300px;">还没有评论，沙发等你来抢,+_+</div>');
+        }
     }
 </script>
 </body>

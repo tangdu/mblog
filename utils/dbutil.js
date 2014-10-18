@@ -365,7 +365,7 @@ Table.prototype.queryPageBySql = function(sql, page,params, callback) {
             page.totalPage = Math.ceil(page.totalCount / page.pageSize);
             //分页
             me.getConnection(function(connection) {
-                var query = connection.query("select * from  ( " + sql + " ) T limit " + page.start + "," + page.end + "", function(err, result) {
+                var query = connection.query(  sql + "  limit " + page.start + "," + page.end + "", function(err, result) {
                     if (err) {
                         callback(err,result);
                     }else{

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <title><%=title%> | <%= Sys.cont.siteName %></title>
+    <%- include header.ejs %>
+</head>
+<body>
+<%- include topbar.ejs %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="glyphicon glyphicon-file"></i> <%=title%>
+                    <span class="pull-right"><i class="glyphicon glyphicon-th-large" id="viewstyle"></i></span>
+                </div>
+                <div class="panel-body padding0">
+                    <% artidesLife.data.forEach(function(item){ %>
+                    <div class="viewrecord">
+                        <div class="row">
+                            <div class="col-md-11" style="font-size: 17px;padding-top: 5px;">
+                                <a href="/article/view/<%= item.id_ %>" ><%= item.title %></a>
+                            </div>
+                            <div class="col-md-1">
+
+                            </div>
+                        </div>
+                        <div  style="padding-left: 5px;">
+                            <span>
+                               <small><i class="glyphicon glyphicon-edit"></i> <a href="/user/view/<%= item.userid %>/wdwz"> <%= item.username %></a></small>
+                               <small><i class="glyphicon glyphicon-eye-open"></i> 围观<%= item.readcount %>次</small>
+                               <small><i class="glyphicon glyphicon-repeat"></i> 编辑日期：<%= moment(item.updated).format('MM-DD HH:m') %></small>
+                               <% if (locals.user && (locals.user.id_===item.userid || locals.user.role==="1")) { %>
+                                <small><i class="glyphicon glyphicon-edit"></i> <a href="/edit_article/<%=item.id_%>">编辑</a></small>
+                               <%}%>
+                            </span>
+                        </div>
+                        <div class="viewcontent hidden" style="height: 50px;padding-top:5px;">
+                            <%- item.digest %>
+                        </div>
+                    </div>
+                    <% }) %>
+                    <br>
+                </div>
+            </div>
+            <ul class="pagination">
+                <%if((parseInt(artidesLife.page)-1)<1){%>
+                    <li class="disabled"><a href="#">«</a></li>
+                <%}else{%>
+                    <li><a href="/index?ipage=1%>">«</a></li>
+                <%}%>
+
+                <% for(var i=1;i<=artidesLife.totalPage;i++){%>
+                    <%if(artidesLife.page==i){%>
+                        <li class="active"><a href="/index?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
+                    <%}else{%>
+                        <li><a href="/index?ipage=<%=i%>"><%=i%><span class="sr-only">(current)</span></a></li>
+                    <%}%>
+                <%}%>
+
+                <%if( (parseInt(artidesLife.page)+1)>artidesLife.totalPage){%>
+                    <li class="disabled"><a href="#">»</a></li>
+                <%}else{%>
+                    <li><a href="/index?ipage=<%=(parseInt(artidesLife.page)+1)%>">»</a></li>
+                <%}%>
+            </ul>
+        </div>
+
+        <div class="col-md-3">
+            <% if(locals.user != null){ %>
+            <div class="panel">
+                <a href="/push_article" class="btn btn-lg btn-primary btn-block">发表文章</a>
+            </div>
+            <% } %>
+            <span class="btn btn-sm slintbtn">热门评论</span>
+            <div class="sline"></div>
+            <div class="panel panel-default">
+                <div class="panel-body"  style="padding: 0px;">
+                    <% topArtideList.forEach(function(item){ %>
+                    <div class="col-md-12 viewrecord_hot">
+                        <a href="/article/view/<%= item.id_ %>"><%= item.title %></a>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include footer.ejs %>
+<script>
+    $(function(){
+        $("#viewstyle").click(function(){
+            var _viewcontent=$(".viewcontent");
+
+            if(_viewcontent.hasClass("hidden")){
+                _viewcontent.removeClass("hidden");
+                _viewcontent.fadeIn("slow");
+            }else{
+                _viewcontent.addClass("hidden");
+                _viewcontent.fadeOut("slow");
+            }
+        });
+    });
+</script>
+</body>
+</html>
